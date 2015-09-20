@@ -194,6 +194,7 @@ def practiceWindow(root):
 		pWin.title("Practice Selector")
 		pWin.resizable(False,True)
 		pWin.protocol("WM_DELETE_WINDOW", close_window)
+		pWin.tk.call('wm', 'iconphoto', pWin._w, get_item_icon('There\'s Options'))
 
 		# Initialize the scrolling canvas
 		canvas = Canvas(pWin, borderwidth=0)
@@ -308,13 +309,14 @@ def practiceWindow(root):
 
 # **** Main window and installation functions ****
 def installMod():
-	# Remove all the files and folders EXCEPT packed and dmtmpfolder
+	global items_xml, items_info
+	# Remove all the files and folders EXCEPT packed and tmp_folder
 	for resourcefile in os.listdir(resourcepath):
-		if resourcefile != 'packed' and resourcefile != dmtmpfolder :
+		if resourcefile != 'packed' and resourcefile != tmp_folder :
 			if os.path.isfile(os.path.join(resourcepath, resourcefile)):
 				os.unlink(os.path.join(resourcepath, resourcefile))
 			elif os.path.isdir(os.path.join(resourcepath, resourcefile)):
-				shutil.rmtree(os.path.join(resourcepath, resourcefile))
+					shutil.rmtree(os.path.join(resourcepath, resourcefile))
 
 	# Copy game files
 	for resourcefile in os.listdir('gameFiles'):
@@ -338,6 +340,8 @@ def installMod():
 	players_info = players_xml.getroot()
 	itempools_xml = ET.parse('gameFiles/itempools.xml')
 	itempools_info = itempools_xml.getroot()
+	items_xml = ET.parse('gameFiles/items.xml')
+	items_info = items_xml.getroot()
 
 	# Parse the build info
 	items = current_build.get('items')
@@ -352,9 +356,19 @@ def installMod():
 		for child in players_info:
 			if child.attrib['name']=='Isaac':
 				if items:
-					for item in items.split(' + '):
+					items = items.split(' + ')
+					for i in range(0, len(items)):
+						items[i] = get_item_id(items[i])
+					# Add the items to the player.xml
+					for item in items:
 						id = get_item_id(item)
 						child.attrib['items'] += ("," + id)
+					# Remove health ups from the items in items.xml
+					for child in items_info:
+						if child.attrib['id'] in items:
+							for key in ['hearts', 'soulhearts', 'blackhearts', 'maxhearts']:
+								if key in child.attrib:
+									del child.attrib[key]
 				if trinket:
 						child.set('trinket', get_trinket_id(trinket))
 				break
@@ -381,6 +395,8 @@ def installMod():
 	players_xml.write(os.path.join(resourcepath, 'players.xml'))
 	itempools_xml.write(os.path.join(resourcepath, 'itempools.xml'))
 	items_xml.write(os.path.join(resourcepath, 'items.xml'))
+	with open(os.path.join(resourcepath, 'info.txt'), 'w') as f:
+		f.write("Balance Mod " + str(version))
 
 	# If Rebirth is running, kill it
 	FNULL = open(os.devnull, 'w')
@@ -393,23 +409,24 @@ def installMod():
 		call(resourcepath + '/../isaac-ng.exe')
 
 def uninstallMod():
-	# remove all the files and folders EXCEPT packed and dmtmpfolder
+	# remove all the files and folders EXCEPT packed and tmp_folder
 	for resourcefile in os.listdir(resourcepath):
-		if resourcefile != 'packed' and resourcefile != dmtmpfolder :
+		if resourcefile != 'packed':
 			if os.path.isfile(os.path.join(resourcepath, resourcefile)):
 				os.unlink(os.path.join(resourcepath, resourcefile))
 			elif os.path.isdir(os.path.join(resourcepath, resourcefile)):
 				shutil.rmtree(os.path.join(resourcepath, resourcefile))
 
-	# copy all the files and folders EXCEPT the 'packed' folder to dmtmpfolder
-	for dmtmpfile in os.listdir(os.path.join(resourcepath, dmtmpfolder)):
-		if os.path.isfile(os.path.join(resourcepath, dmtmpfolder, dmtmpfile)):
-			shutil.copyfile(os.path.join(resourcepath, dmtmpfolder, dmtmpfile), os.path.join(resourcepath, dmtmpfile))
-		elif os.path.isdir(os.path.join(resourcepath, dmtmpfolder, dmtmpfile)):
-			shutil.copytree(os.path.join(resourcepath, dmtmpfolder, dmtmpfile), os.path.join(resourcepath, dmtmpfile))
+	# copy all the files and folders EXCEPT the 'packed' folder to tmp_folder
+	if tmp_folder:
+		for tmp_file in os.listdir(os.path.join(resourcepath, tmp_folder)):
+			if os.path.isfile(os.path.join(resourcepath, tmp_folder, tmp_file)):
+				shutil.copyfile(os.path.join(resourcepath, tmp_folder, tmp_file), os.path.join(resourcepath, tmp_file))
+			elif os.path.isdir(os.path.join(resourcepath, tmp_folder, tmp_file)):
+				shutil.copytree(os.path.join(resourcepath, tmp_folder, tmp_file), os.path.join(resourcepath, tmp_file))
 
-	# remove the temporary directory we created
-	shutil.rmtree(os.path.join(resourcepath, dmtmpfolder))
+		# remove the temporary directory we created
+		shutil.rmtree(os.path.join(resourcepath, tmp_folder))
 	sys.exit()
 
 def setcustompath():
@@ -426,81 +443,90 @@ def setcustompath():
 	root.update_idletasks()
 
 if __name__ == '__main__':
-    # root is the GUI, entryseed is the rng seed, feedback is the message for user
-    root = Tk()
-    feedback = StringVar()
-    practiceStart = ''
-    # just the gui icon and title
-    root.iconbitmap("otherFiles/libra.ico")
-    root.title("Balance Mod v" + str(version))
+	root = Tk()
+	feedback = StringVar()
+	practiceStart = ''
 
-    # Item images for the practice selection window
-    _image_library = {}
-    pWin = None # Keep track of whether the practice window is open
-    # Item info for the practice selection window
-    items_xml = ET.parse('gameFiles/items.xml')
-    items_info = items_xml.getroot()
+	_image_library = {} # Item images library
+	pWin = None # Keep track of whether the practice window is open
+	items_xml = ET.parse('gameFiles/items.xml')
+	items_info = items_xml.getroot()
 
-    # Import options.ini
-    customs = ConfigParser.RawConfigParser()
-    customs.read('options.ini')
-    if not customs.has_section('options'):
-        customs.add_section('options')
+	# Import options.ini
+	customs = ConfigParser.RawConfigParser()
+	customs.read('options.ini')
+	if not customs.has_section('options'):
+		customs.add_section('options')
 
-    # check and set the paths for file creation, exit if not found
-    currentpath = os.getcwd()
-    SteamPath = regkey_value(r"HKEY_CURRENT_USER\Software\Valve\Steam", "SteamPath")
-    # first check custom path
-    if customs.has_option('options', 'custompath') and os.path.exists(customs.get('options', 'custompath')):
-        resourcepath = customs.get('options', 'custompath')
-    # then check steam path
-    elif os.path.isdir(SteamPath + "/steamapps/common/The Binding of Isaac Rebirth/resources"):
-        resourcepath = SteamPath + "/steamapps/common/The Binding of Isaac Rebirth/resources"
-    else: # if neither, then go through the motions of writing and saving a new path to options
-        feedback.set("")
-        Message(root, justify = CENTER, font = "font 10", text = "Balance Mod was unable to find your resources directory.\nNavigate to the program isaac-ng.exe in your Steam directories.", width = 600).grid(row = 0, pady = 10)
-        Message(root, justify = CENTER, font = "font 12", textvariable = feedback, width = 600).grid(row = 1)
-        Button(root, font = "font 12", text = "Navigate to isaac-ng.exe", command = setcustompath).grid(row = 2, pady = 10)
-        Message(root, justify = LEFT, font = "font 10", text = "Example:\nC:\Program Files (x86)\Steam\steamapps\common\The Binding of Isaac Rebirth\isaac-ng.exe", width = 800).grid(row = 3, padx = 15, pady = 10)
-        mainloop()
-        sys.exit()
+	root.tk.call('wm', 'iconphoto', root._w, get_item_icon('Libra')) # Set the GUI icon
+	root.title("Balance Mod v" + str(version)) # Set the GUI title
 
-    # Check if you're inside the resources path. give warning and close if necessary.
-    if os.path.normpath(resourcepath).lower() in os.path.normpath(currentpath).lower():
-        Message(root, justify = CENTER, font = "font 12", text = "Balance Mod is in your resources directory.\nMove it elsewhere before running.", width = 600).grid(row = 0, pady = 10)
-        mainloop()
-        sys.exit()
+	# check and set the paths for file creation, exit if not found
+	currentpath = os.getcwd()
+	SteamPath = regkey_value(r"HKEY_CURRENT_USER\Software\Valve\Steam", "SteamPath")
+	# first check custom path
+	if customs.has_option('options', 'custompath') and os.path.exists(customs.get('options', 'custompath')):
+		resourcepath = customs.get('options', 'custompath')
+	# then check steam path
+	elif os.path.isdir(SteamPath + "/steamapps/common/The Binding of Isaac Rebirth/resources"):
+		resourcepath = SteamPath + "/steamapps/common/The Binding of Isaac Rebirth/resources"
+	else: # if neither, then go through the motions of writing and saving a new path to options
+		feedback.set("")
+		Message(root, justify = CENTER, font = "font 10", text = "Balance Mod was unable to find your resources directory.\nNavigate to the program isaac-ng.exe in your Steam directories.", width = 600).grid(row = 0, pady = 10)
+		Message(root, justify = CENTER, font = "font 12", textvariable = feedback, width = 600).grid(row = 1)
+		Button(root, font = "font 12", text = "Navigate to isaac-ng.exe", command = setcustompath).grid(row = 2, pady = 10)
+		Message(root, justify = LEFT, font = "font 10", text = "Example:\nC:\Program Files (x86)\Steam\steamapps\common\The Binding of Isaac Rebirth\isaac-ng.exe", width = 800).grid(row = 3, padx = 15, pady = 10)
+		mainloop()
+		sys.exit()
 
-    # Create a folder to temporarily hold files until Balance Mod is done
-    seed()
-    dmtmpfolder = '../resources_tmp' + str(randint(1000000000,9999999999))
-    if not os.path.exists(os.path.join(resourcepath, dmtmpfolder)):
-        os.mkdir(os.path.join(resourcepath, dmtmpfolder))
+	# Check if you're inside the resources path. give warning and close if necessary.
+	if os.path.normpath(resourcepath).lower() in os.path.normpath(currentpath).lower():
+		Message(root, justify = CENTER, font = "font 12", text = "Balance Mod is in your resources directory.\nMove it elsewhere before running.", width = 600).grid(row = 0, pady = 10)
+		mainloop()
+		sys.exit()
 
-    # Copy all the files and folders EXCEPT the 'packed' folder to dmtmpfolder
-    for resourcefile in os.listdir(resourcepath):
-        if resourcefile != 'packed' and resourcefile != dmtmpfolder:
-            try:
-                if os.path.isfile(os.path.join(resourcepath, resourcefile)):
-                    shutil.copyfile(os.path.join(resourcepath, resourcefile), os.path.join(resourcepath, dmtmpfolder, resourcefile))
-                elif os.path.isdir(os.path.join(resourcepath, resourcefile)):
-                    shutil.copytree(os.path.join(resourcepath, resourcefile), os.path.join(resourcepath, dmtmpfolder, resourcefile))
-            except Exception, e:
-                print e
+	# Create a folder to temporarily hold files until Balance Mod is done
+	install_check = "None"
+	if os.path.isfile(os.path.join(resourcepath, 'info.txt')):
+		with open(os.path.join(resourcepath, 'info.txt'), 'r') as f:
+			install_check = f.readline()
+	for file in os.listdir(resourcepath):
+		if file == 'packed':
+			pass
+		else:
+			break
+	else:
+		install_check = "Balance Mod"
+	if install_check[:11] != 'Balance Mod':
+		seed()
+		tmp_folder = '../resources_tmp' + str(randint(1000000000,9999999999))
+		if not os.path.exists(os.path.join(resourcepath, tmp_folder)):
+			os.mkdir(os.path.join(resourcepath, tmp_folder))
 
-    # Button to install mod and restart Rebirth
-    dmiconimage = Image.open("otherFiles/libra.png")
-    dmicon = ImageTk.PhotoImage(dmiconimage)
-    Button(root, image = dmicon, text = '   Start Balance Mod   ', compound = "left", command = installMod, font = "font 16").grid(row = 1, pady = 30, columnspan = 1)
-    Button(root, image = get_item_icon('There\'s Options'), text = '   Practice Mode   ', compound = "left", command = lambda:practiceWindow(root), font = "font 16").grid(row=1, column=1, pady=30)
+		# Copy all the files and folders EXCEPT the 'packed' folder to tmp_folder
+		for resourcefile in os.listdir(resourcepath):
+			if resourcefile != 'packed' and resourcefile != tmp_folder:
+				try:
+					if os.path.isfile(os.path.join(resourcepath, resourcefile)):
+						shutil.copyfile(os.path.join(resourcepath, resourcefile), os.path.join(resourcepath, tmp_folder, resourcefile))
+					elif os.path.isdir(os.path.join(resourcepath, resourcefile)):
+						shutil.copytree(os.path.join(resourcepath, resourcefile), os.path.join(resourcepath, tmp_folder, resourcefile))
+				except Exception, e:
+					print e
+	else:
+		tmp_folder = None
 
-    # Instructions
-    Message(root, justify = CENTER, text = "Rebirth will open when you start the mod.", font = "font 13", width = 475).grid(row = 2, column = 0, columnspan = 2, padx = 20)
-    Message(root, justify = CENTER, text = "Keep this program open while playing.", font = "font 13", width = 475).grid(row = 3, column = 0, columnspan = 2, padx = 20)
-    Message(root, justify = CENTER, text = "Rebirth will returns to normal when this program is closed.\n\n", font = "font 13", width = 500).grid(row = 4, column = 0, columnspan = 2, padx = 20)
+	# Button to install mod and restart Rebirth
+	Button(root, image = get_item_icon('Libra'), text = '   Start Balance Mod   ', compound = "left", command = installMod, font = "font 16").grid(row = 1, pady = 30, columnspan = 1)
+	Button(root, image = get_item_icon('There\'s Options'), text = '   Practice Mode   ', compound = "left", command = lambda:practiceWindow(root), font = "font 16").grid(row=1, column=1, pady=30)
 
-    # Uninstall mod files when the window is closed
-    root.protocol("WM_DELETE_WINDOW", uninstallMod)
+	# Instructions
+	Message(root, justify = CENTER, text = "Rebirth will open when you start the mod.", font = "font 13", width = 475).grid(row = 2, column = 0, columnspan = 2, padx = 20)
+	Message(root, justify = CENTER, text = "Keep this program open while playing.", font = "font 13", width = 475).grid(row = 3, column = 0, columnspan = 2, padx = 20)
+	Message(root, justify = CENTER, text = "Rebirth will returns to normal when this program is closed.\n\n", font = "font 13", width = 500).grid(row = 4, column = 0, columnspan = 2, padx = 20)
 
-    # Infinite loop
-    mainloop()
+	# Uninstall mod files when the window is closed
+	root.protocol("WM_DELETE_WINDOW", uninstallMod)
+
+	# Infinite loop
+	mainloop()
