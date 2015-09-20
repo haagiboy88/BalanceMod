@@ -136,87 +136,62 @@ def get_heart_icons():
 	return hearts_list
 
 # Display the practice mode window
-def practiceWindow(root=None):
-	def close_window():
-		global pWin
-		pWin.destroy()
-		pWin = None
-
-	def select_build(event):
-		global practiceStart
-		widget = event.widget
-		while not hasattr(widget, 'build'):
-			widget = widget._nametowidget(widget.winfo_parent())
-		build = widget.build
-		practiceStart = build.attrib['id']
-		close_window()
-		installMod()
-
-	def make_hearts_frame(parent, redhearts, soulhearts, blackhearts, heartcontainers):
-		hearts_frame = Canvas(parent)
-		current = 0
-
-		if redhearts:
-			fullreds = int(int(redhearts)/2)
-			for i in range(0, fullreds):
-				widget = Label(hearts_frame)
-				widget.image = hearts_list[0]
-				widget.configure(image=widget.image)
-				widget.bind("<Button-1>", select_build)
-				widget.grid(column=current, row=0)
-				current+=1
-			if int(redhearts)%2 == 1:
-				widget = Label(hearts_frame)
-				widget.image = hearts_list[1]
-				widget.configure(image=widget.image)
-				widget.bind("<Button-1>", select_build)
-				widget.grid(column=current, row=0)
-				current+=1
-		if heartcontainers:
-			for i in range(0, int(heartcontainers)/2):
-				widget = Label(hearts_frame)
-				widget.image = hearts_list[2]
-				widget.configure(image=widget.image)
-				widget.bind("<Button-1>", select_build)
-				widget.grid(column=current, row=0)
-				current+=1
-		if soulhearts:
-			fullsouls = int(int(soulhearts)/2)
-			for i in range(0, fullsouls):
-				widget = Label(hearts_frame)
-				widget.image = hearts_list[5]
-				widget.configure(image=widget.image)
-				widget.bind("<Button-1>", select_build)
-				widget.grid(column=current, row=0)
-				current+=1
-			if int(soulhearts)%2 == 1:
-				widget = Label(hearts_frame)
-				widget.image = hearts_list[6]
-				widget.configure(image=widget.image)
-				widget.bind("<Button-1>", select_build)
-				widget.grid(column=current, row=0)
-				current+=1
-		if blackhearts:
-			fullblacks = int(int(blackhearts)/2)
-			for i in range(0, fullblacks):
-				widget = Label(hearts_frame)
-				widget.image = hearts_list[7]
-				widget.configure(image=widget.image)
-				widget.bind("<Button-1>", select_build)
-				widget.grid(column=current, row=0)
-				current+=1
-			if int(blackhearts)%2 == 1:
-				widget = Label(hearts_frame)
-				widget.image = hearts_list[8]
-				widget.configure(image=widget.image)
-				widget.bind("<Button-1>", select_build)
-				widget.grid(column=current, row=0)
-				current+=1
-		return hearts_frame
-
+def practiceWindow(root):
 	global pWin
 	if not pWin:
-		pWin = Toplevel(root) if root else Tk()
+		def close_window():
+			global pWin
+			root.bind_all("<MouseWheel>", lambda event: None)
+			pWin.destroy()
+			pWin = None
+
+		def select_build(event):
+			global practiceStart
+			widget = event.widget
+			while not hasattr(widget, 'build'):
+				if widget == root:
+					return
+				widget = widget._nametowidget(widget.winfo_parent())
+			build = widget.build
+			practiceStart = build.attrib['id']
+			close_window()
+			installMod()
+
+		def make_hearts_frame(parent, redhearts, soulhearts, blackhearts, heartcontainers):
+			hearts_frame = Canvas(parent, bg=current_bgcolor)
+			current = 0
+
+			def add_hearts(amount, type):
+				curr = current
+				for i in range(0, amount):
+					widget = Label(hearts_frame, bg=current_bgcolor)
+					widget.image = hearts_list[type]
+					widget.configure(image=widget.image)
+					widget.bind("<Button-1>", select_build)
+					widget.grid(column=curr, row=0)
+					curr+=1
+				return curr
+
+			if redhearts:
+				fullreds = int(int(redhearts)/2)
+				current = add_hearts(fullreds, 0)
+				if int(redhearts)%2 == 1:
+					current = add_hearts(1,1)
+			if heartcontainers:
+				current = add_hearts(int(heartcontainers)/2, 2)
+			if soulhearts:
+				fullsouls = int(int(soulhearts)/2)
+				current = add_hearts(fullsouls, 5)
+				if int(soulhearts)%2 == 1:
+					current = add_hearts(1,6)
+			if blackhearts:
+				fullblacks = int(int(blackhearts)/2)
+				current = add_hearts(fullblacks, 7)
+				if int(blackhearts)%2 == 1:
+					add_hearts(1, 8)
+			return hearts_frame
+
+		pWin = Toplevel(root)
 		pWin.title("Practice Selector")
 		pWin.resizable(False,True)
 		pWin.protocol("WM_DELETE_WINDOW", close_window)
@@ -248,68 +223,81 @@ def practiceWindow(root=None):
 				# update the inner frame's width to fill the canvas
 				canvas.itemconfigure(interior_id, width=canvas.winfo_width())
 		canvas.bind('<Configure>', _configure_canvas)
+		# http://stackoverflow.com/questions/17355902/python-tkinter-binding-mousewheel-to-scrollbar
+		def _on_mousewheel(event):
+			canvas.yview_scroll(-1*(event.delta/120), "units")
+		# Yes, this works anywhere in the program. Will need to change if it ever has more than one scrollbar.
+		root.bind_all("<MouseWheel>", _on_mousewheel)
+		pWin.bind("<Home>", lambda event: canvas.yview_moveto(0))
+		pWin.bind("<End>", lambda event: canvas.yview_moveto(1))
+		pWin.bind("<Prior>", lambda event: canvas.yview_scroll(-1,'pages'))
+		pWin.bind("<Next>", lambda event: canvas.yview_scroll(1,'pages'))
 
 		hearts_list = get_heart_icons()
 		Label(imageBox, text="Click a build to play it", font="font 32 bold").pack(pady=5)
+		current_bgcolor = '#949494'
 		for child in builds:
-			redhearts = child.attrib.get('redhearts')
-			soulhearts = child.attrib.get('soulhearts')
-			blackhearts = child.attrib.get('blackhearts')
-			heartcontainers = child.attrib.get('heartcontainers')
-			items = child.attrib.get('items')
-			if items:
-				items = items.split(' + ')
-			trinket = child.attrib.get('trinket')
-			removed_items = child.attrib.get('removed')
-			if removed_items:
-				removed_items = removed_items.split(' + ')
+			current_bgcolor = '#E0E0E0' if current_bgcolor == '#949494' else '#949494'
 			# Draw the build frame here
-			build_frame = LabelFrame(imageBox)
-			build_frame.build = child
+			build_frame = LabelFrame(imageBox, bg=current_bgcolor)
 			build_frame.bind("<Button-1>", select_build)
+			build_frame.build = child
 			# ID
-			widget = Label(build_frame, text=child.attrib['id'], font="font 32 bold" )
+			widget = Label(build_frame, text=child.attrib['id'], font="font 32 bold", bg=current_bgcolor, width=2)
 			widget.bind("<Button-1>", select_build)
 			widget.grid(row=0, rowspan=3)
 			# Items
-			widget = Label(build_frame, text="Items: ")
+			widget = Label(build_frame, text="Items: ", bg=current_bgcolor)
 			widget.bind("<Button-1>", select_build)
 			widget.grid(row=0, column=1, sticky=E)
 			items_frame = Canvas(build_frame)
-			for i, item in enumerate(items):
-				widget = Label(items_frame)
-				widget.image = get_item_icon(item)
-				widget.configure(image=widget.image)
-				widget.bind("<Button-1>", select_build)
-				widget.grid(row=0, column=i)
+			items = child.attrib.get('items')
+			if items:
+				items = items.split(' + ')
+				for i, item in enumerate(items):
+					widget = Label(items_frame, bg=current_bgcolor)
+					widget.image = get_item_icon(item)
+					widget.configure(image=widget.image)
+					widget.bind("<Button-1>", select_build)
+					widget.grid(row=0, column=i)
+			trinket = child.attrib.get('trinket')
 			if trinket:
-				widget = Label(items_frame)
+				widget = Label(items_frame, bg=current_bgcolor)
 				widget.image = get_trinket_icon(trinket)
 				widget.configure(image=widget.image)
 				widget.bind("<Button-1>", select_build)
 				widget.grid(row=0, column=len(items)+1)
 			items_frame.grid(row=0, column=2, sticky=W)
 			# Health
-			widget = Label(build_frame, text="Health: ")
+			widget = Label(build_frame, text="Health: ", bg=current_bgcolor)
 			widget.bind("<Button-1>", select_build)
 			widget.grid(row=1, column=1, sticky=E)
+			redhearts = child.attrib.get('redhearts')
+			soulhearts = child.attrib.get('soulhearts')
+			blackhearts = child.attrib.get('blackhearts')
+			heartcontainers = child.attrib.get('heartcontainers')
 			hearts_frame = make_hearts_frame(build_frame, redhearts, soulhearts, blackhearts, heartcontainers)
 			hearts_frame.bind("<Button-1>", select_build)
 			hearts_frame.grid(row=1, column=2, sticky=W)
 			# Removed Items
-			widget = Label(build_frame, text="Removed Items: ")
+			widget = Label(build_frame, text="Removed Items: ", bg=current_bgcolor)
 			widget.bind("<Button-1>", select_build)
 			widget.grid(row=2, column=1, sticky=E)
+			removed_items = child.attrib.get('removed')
 			if removed_items:
-				removed_items_frame = Canvas(build_frame)
+				removed_items = removed_items.split(' + ')
+				removed_items_frame = Canvas(build_frame, bg=current_bgcolor)
 				for i, item in enumerate(removed_items):
-					widget = Label(removed_items_frame)
+					widget = Label(removed_items_frame, bg=current_bgcolor)
 					widget.image = get_item_icon(item)
 					widget.configure(image=widget.image)
 					widget.bind("<Button-1>", select_build)
 					widget.grid(row=2, column=i)
 				removed_items_frame.grid(row=2, column=2, sticky=W)
-			build_frame.pack(pady=5, fill=X)
+			else:
+				# Keep the spacing consistent by adding an empty invisible frame of the same height as an item
+				Frame(build_frame, width=0,  height=32, bg=current_bgcolor, borderwidth=0).grid(row=2, column=2, sticky=W)
+			build_frame.pack(pady=5, padx=3, fill=X)
 
 		pWin.update() # Update the window so the widgets give their actual dimensions
 		height = max(min(int(pWin.winfo_vrootheight() * 2 / 3), imageBox.winfo_height() + 4),
@@ -317,7 +305,6 @@ def practiceWindow(root=None):
 		width = imageBox.winfo_width() + scrollbar.winfo_width() + 2
 		pWin.geometry('%dx%d' % (width, height))
 		pWin.update() # Then update with the newly calculated height
-		pWin.mainloop()
 
 
 # **** Main window and installation functions ****

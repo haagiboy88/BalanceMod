@@ -1,5 +1,6 @@
 <builds>
 		<!-- Thin Odd Mushroom = 120, Thick Odd Mushroom = 121 -->
+		<!-- Build IDs are arbitrary but are currently used to label them in practice mode-->
         <build id="1" items="Mom's Knife" redhearts="1" removed="Cricket's Head + Magic Mushroom + Tech.5 + The Inner Eye + Mutant Spider" />
         <build id="2" items="Epic Fetus + Jesus Juice + Blood Clot" redhearts="2" removed="Abaddon" />
         <build id="3" items="Godhead + The Sad Onion + Strange Attractor" redhearts="1" removed="20/20 + Proptosis + Mutant Spider" />
