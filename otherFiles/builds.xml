@@ -1,0 +1,36 @@
+<builds>
+		<!-- Thin Odd Mushroom = 120, Thick Odd Mushroom = 121 -->
+        <build id="1" items="Mom's Knife" redhearts="1" removed="Cricket's Head + Magic Mushroom + Tech.5 + The Inner Eye + Mutant Spider" />
+        <build id="2" items="Epic Fetus + Jesus Juice + Blood Clot" redhearts="2" removed="Abaddon" />
+        <build id="3" items="Godhead + The Sad Onion + Strange Attractor" redhearts="1" removed="20/20 + Proptosis + Mutant Spider" />
+        <build id="4" items="Ipecac + The Sad Onion" trinket="Cancer" redhearts="2" soulhearts="2" removed="Dr. Fetus + Infestation 2 + Monstro's Lung + Chocolate Milk + Guppy's Paw + Guppy's Collar + Guppy's Tail + Guppy's Hairball" />
+        <build id="5" items="Libra + Soy Milk" redhearts="1" />
+        <build id="6" items="Guppy's Tail + Guppy's Collar + Guppy's Hairball + Little Steven" redhearts="1" removed="Brimstone + Monstro's Lung + Polyphemus + Proptosis + 20/20 + Cricket's Body + Hive Mind" />
+        <build id="7" items="Brimstone + Steven + The Pact + Wooden Spoon" redhearts="2" removed="Tammy's Head + Sacred Heart + Proptosis + Polyphemus + The Inner Eye + Mutant Spider + Guppy's Head + Guppy's Paw + Guppy's Collar + Guppy's Hairball" />
+        <build id="8" items="Brimstone + The Ludovico Technique + Spoon Bender" redhearts="1" removed="" />
+        <build id="9" items="20/20 + There's Options + The Pact + Aries" redhearts="2" removed="" />
+        <build id="10" items="20/20 + Rubber Cement + Cricket's Body + There's Options" redhearts="1" soulhearts="1" removed="" />
+        <build id="11" items="Proptosis + There's Options + The Pact + The Halo" redhearts="2" removed="" />
+        <build id="12" items="Tech.5 + There's Options + Steven + The Halo" redhearts="2" removed="" />
+        <build id="13" items="Tech.5 + Technology + Technology 2 + Godhead + There's Options" redhearts="1" removed="" />
+        <build id="14" items="Tech.5 + Eve's Mascara + Infestation 2 + Rotten Baby + Capricorn + Pisces" redhearts="1" removed="" />
+        <build id="15" items="Lil' Brimstone + BFFS! + Aries" redhearts="1" removed="" />
+        <build id="16" items="Lil' Brimstone + Scapular + The Negative + There's Options + Daddy Longlegs" redhearts="1" soulhearts="1" removed="" />
+        <build id="17" items="Sacred Heart + 120" redhearts="2" removed="Brimstone" />
+        <build id="18" items="Magic Mushroom + Steven + Dead Onion + Screw" redhearts="1" removed="" />
+        <build id="19" items="Cricket's Head + Steven + Dead Onion + Screw" redhearts="1" removed="" />
+        <build id="20" items="Monstro's Lung + There's Options + The Pact + SMB Super Fan + Tough Love" redhearts="1" soulhearts="1" removed="Chocolate Milk + Guppy's Head + Guppy's Paw + Guppy's Collar + Guppy's Hairball" />
+        <build id="21" items="Cricket's Body + There's Options + The Pact + SMB Super Fan + Tough Love" redhearts="1" soulhearts="1" removed="Guppy's Head + Guppy's Paw + Guppy's Collar + Guppy's Hairball" />
+        <build id="22" items="Death's Touch + There's Options + 120 + Steven" redhearts="1" soulhearts="1" removed="" />
+        <build id="23" items="Mutant Spider + There's Options + Growth Hormones + The Pact + Cupid's Arrow" redhearts="1" removed="" />
+        <build id="24" items="Mutant Spider + There's Options + Libra + Mom's Heels + The Halo" redhearts="1" removed="Soy Milk" />
+        <build id="25" items="The Inner Eye + Death's Touch + There's Options + A Lump of Coal" redhearts="1" removed="" />
+        <build id="26" items="Polyphemus + There's Options + Growth Hormones + The Pact + Sacrificial Dagger" redhearts="1" removed="Guppy's Head + Guppy's Paw + Guppy's Collar + Guppy's Hairball" />
+        <build id="27" items="Judas' Shadow + Guillotine + There's Options + Growth Hormones + Cupid's Arrow + Fate" redhearts="1" removed="" />
+        <build id="28" items="The Ludovico Technique + ???'s Only Friend + Robo-Baby 2.0 + There's Options + BFFS! + Ball of Bandages + Capricorn" redhearts="2" removed="" />
+        <build id="29" items="Bob's Brain + Pyromaniac + Sad Bombs + Mr. Mega + Fire Mind + Butt Bombs + Hot Bombs + Little Chubby + BFFS!" redhearts="1" removed="" />
+        <build id="30" items="Bloody Lust + Goat Head + Squeezy + The Parasite + Anti-Gravity + Juicy Sack" redhearts="12" heartcontainers="12" removed="" />
+        <build id="31" items="Hive Mind + Infestation 2 + The Mulligan + Rotten Baby + Mongo Baby + Juicy Sack + Steven + There's Options" redhearts="1" removed="Guppy's Head + Guppy's Paw + Guppy's Collar + Guppy's Hairball" />
+        <build id="32" items="Dr. Fetus + Bob's Curse + Mr. Mega + There's Options + Aries + Cube of Meat + Transcendence" redhearts="2" soulhearts="1" removed="" />
+        <build id="33" items="Chocolate Milk + There's Options + Growth Hormones + The Pact + Cupid's Arrow" trinket="Curved Horn" redhearts="1" removed="Monstro's Lung" />
+</builds>

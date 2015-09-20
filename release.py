@@ -38,7 +38,6 @@ setup(
 shutil.copytree('dist/', installDir)
 shutil.copytree('gameFiles/', installDir + 'gameFiles/')
 shutil.copytree('otherFiles/', installDir + 'otherFiles/')
-shutil.copytree('startFiles/', installDir + 'startFiles/')
 shutil.copy('README.md', installDir + "/README.txt")
 
 shutil.make_archive("target/" + installName, "zip", 'target', installName + "/")
