@@ -13,9 +13,8 @@ import xml.etree.ElementTree as ET
 from string import ascii_uppercase, digits
 from Tkinter import *
 from tkFileDialog import askopenfilename
-from random import seed, randint, choice, shuffle
+from random import seed, choice, randint
 from PIL import Image, ImageFont, ImageDraw, ImageTk
-from binascii import crc32
 from subprocess import call
 
 # Constants
@@ -308,25 +307,7 @@ def practiceWindow(root):
 
 
 # **** Main window and installation functions ****
-
 def installMod():
-	# trim the whitespace on the string if there is any
-	s = entryseed.get()
-	entryseed.set(s.strip().encode('ascii','replace'))
-
-	# if no seed entered, generate one
-	if entryseed.get() == '':
-		newRandomSeed()
-
-	# set the RNG seed
-	global dmseed
-	dmseed = entryseed.get()
-	seed(crc32(dmseed))
-
-	# write the seed to a text file
-	with open("seed.txt", "w") as f:
-		f.write(dmseed)
-
 	# Remove all the files and folders EXCEPT packed and dmtmpfolder
 	for resourcefile in os.listdir(resourcepath):
 		if resourcefile != 'packed' and resourcefile != dmtmpfolder :
@@ -343,17 +324,15 @@ def installMod():
 		elif os.path.isdir(current_file):
 			shutil.copytree(current_file, os.path.join(resourcepath, resourcefile))
 
-	if practiceStart == '':
-		itemBuildNum = str(1)
-		# TODO - random generation here
+	if practiceStart!='':
+		current_build = None
+		for build in builds:
+			if build.attrib['id'] == practiceStart:
+				current_build = build
+				break
 	else:
-		itemBuildNum = practiceStart
-
-	current_build = None
-	for build in builds:
-		if build.attrib['id'] == itemBuildNum:
-			current_build = build
-			break
+		seed()
+		current_build = choice(builds)
 
 	players_xml = ET.parse('gameFiles/players.xml')
 	players_info = players_xml.getroot()
@@ -446,92 +425,82 @@ def setcustompath():
 		feedback.set("That file appears to be incorrect. Please try again to find isaac-ng.exe")
 	root.update_idletasks()
 
+if __name__ == '__main__':
+    # root is the GUI, entryseed is the rng seed, feedback is the message for user
+    root = Tk()
+    feedback = StringVar()
+    practiceStart = ''
+    # just the gui icon and title
+    root.iconbitmap("otherFiles/libra.ico")
+    root.title("Balance Mod v" + str(version))
 
+    # Item images for the practice selection window
+    _image_library = {}
+    pWin = None # Keep track of whether the practice window is open
+    # Item info for the practice selection window
+    items_xml = ET.parse('gameFiles/items.xml')
+    items_info = items_xml.getroot()
 
+    # Import options.ini
+    customs = ConfigParser.RawConfigParser()
+    customs.read('options.ini')
+    if not customs.has_section('options'):
+        customs.add_section('options')
 
+    # check and set the paths for file creation, exit if not found
+    currentpath = os.getcwd()
+    SteamPath = regkey_value(r"HKEY_CURRENT_USER\Software\Valve\Steam", "SteamPath")
+    # first check custom path
+    if customs.has_option('options', 'custompath') and os.path.exists(customs.get('options', 'custompath')):
+        resourcepath = customs.get('options', 'custompath')
+    # then check steam path
+    elif os.path.isdir(SteamPath + "/steamapps/common/The Binding of Isaac Rebirth/resources"):
+        resourcepath = SteamPath + "/steamapps/common/The Binding of Isaac Rebirth/resources"
+    else: # if neither, then go through the motions of writing and saving a new path to options
+        feedback.set("")
+        Message(root, justify = CENTER, font = "font 10", text = "Balance Mod was unable to find your resources directory.\nNavigate to the program isaac-ng.exe in your Steam directories.", width = 600).grid(row = 0, pady = 10)
+        Message(root, justify = CENTER, font = "font 12", textvariable = feedback, width = 600).grid(row = 1)
+        Button(root, font = "font 12", text = "Navigate to isaac-ng.exe", command = setcustompath).grid(row = 2, pady = 10)
+        Message(root, justify = LEFT, font = "font 10", text = "Example:\nC:\Program Files (x86)\Steam\steamapps\common\The Binding of Isaac Rebirth\isaac-ng.exe", width = 800).grid(row = 3, padx = 15, pady = 10)
+        mainloop()
+        sys.exit()
 
-# root is the GUI, entryseed is the rng seed, feedback is the message for user
-root = Tk()
-entryseed = StringVar()
-feedback = StringVar()
-d6start = BooleanVar()
-# just the gui icon and title
-root.iconbitmap("otherFiles/libra.ico")
-root.title("Balance Mod v" + str(version))
+    # Check if you're inside the resources path. give warning and close if necessary.
+    if os.path.normpath(resourcepath).lower() in os.path.normpath(currentpath).lower():
+        Message(root, justify = CENTER, font = "font 12", text = "Balance Mod is in your resources directory.\nMove it elsewhere before running.", width = 600).grid(row = 0, pady = 10)
+        mainloop()
+        sys.exit()
 
-# Item images for the practice selection window
-_image_library = {}
-pWin = None # Keep track of whether the practice window is open
-# Item info for the practice selection window
-items_xml = ET.parse('gameFiles/items.xml')
-items_info = items_xml.getroot()
+    # Create a folder to temporarily hold files until Balance Mod is done
+    seed()
+    dmtmpfolder = '../resources_tmp' + str(randint(1000000000,9999999999))
+    if not os.path.exists(os.path.join(resourcepath, dmtmpfolder)):
+        os.mkdir(os.path.join(resourcepath, dmtmpfolder))
 
-# Import options.ini
-customs = ConfigParser.RawConfigParser()
-customs.read('options.ini')
-if not customs.has_section('options'):
-	customs.add_section('options')
+    # Copy all the files and folders EXCEPT the 'packed' folder to dmtmpfolder
+    for resourcefile in os.listdir(resourcepath):
+        if resourcefile != 'packed' and resourcefile != dmtmpfolder:
+            try:
+                if os.path.isfile(os.path.join(resourcepath, resourcefile)):
+                    shutil.copyfile(os.path.join(resourcepath, resourcefile), os.path.join(resourcepath, dmtmpfolder, resourcefile))
+                elif os.path.isdir(os.path.join(resourcepath, resourcefile)):
+                    shutil.copytree(os.path.join(resourcepath, resourcefile), os.path.join(resourcepath, dmtmpfolder, resourcefile))
+            except Exception, e:
+                print e
 
-# Check for a practice start
-practiceStart = ''
+    # Button to install mod and restart Rebirth
+    dmiconimage = Image.open("otherFiles/libra.png")
+    dmicon = ImageTk.PhotoImage(dmiconimage)
+    Button(root, image = dmicon, text = '   Start Balance Mod   ', compound = "left", command = installMod, font = "font 16").grid(row = 1, pady = 30, columnspan = 1)
+    Button(root, image = get_item_icon('There\'s Options'), text = '   Practice Mode   ', compound = "left", command = lambda:practiceWindow(root), font = "font 16").grid(row=1, column=1, pady=30)
 
-if customs.has_option('options', 'practiceStart'):
-	practiceStart = customs.get('options', 'practiceStart')
+    # Instructions
+    Message(root, justify = CENTER, text = "Rebirth will open when you start the mod.", font = "font 13", width = 475).grid(row = 2, column = 0, columnspan = 2, padx = 20)
+    Message(root, justify = CENTER, text = "Keep this program open while playing.", font = "font 13", width = 475).grid(row = 3, column = 0, columnspan = 2, padx = 20)
+    Message(root, justify = CENTER, text = "Rebirth will returns to normal when this program is closed.\n\n", font = "font 13", width = 500).grid(row = 4, column = 0, columnspan = 2, padx = 20)
 
-# check and set the paths for file creation, exit if not found
-currentpath = os.getcwd()
-SteamPath = regkey_value(r"HKEY_CURRENT_USER\Software\Valve\Steam", "SteamPath")
-# first check custom path
-if customs.has_option('options', 'custompath') and os.path.exists(customs.get('options', 'custompath')):
-	resourcepath = customs.get('options', 'custompath')
-# then check steam path
-elif os.path.isdir(SteamPath + "/steamapps/common/The Binding of Isaac Rebirth/resources"):
-	resourcepath = SteamPath + "/steamapps/common/The Binding of Isaac Rebirth/resources"
-else: # if neither, then go through the motions of writing and saving a new path to options
-	feedback.set("")
-	Message(root, justify = CENTER, font = "font 10", text = "Balance Mod was unable to find your resources directory.\nNavigate to the program isaac-ng.exe in your Steam directories.", width = 600).grid(row = 0, pady = 10)
-	Message(root, justify = CENTER, font = "font 12", textvariable = feedback, width = 600).grid(row = 1)
-	Button(root, font = "font 12", text = "Navigate to isaac-ng.exe", command = setcustompath).grid(row = 2, pady = 10)
-	Message(root, justify = LEFT, font = "font 10", text = "Example:\nC:\Program Files (x86)\Steam\steamapps\common\The Binding of Isaac Rebirth\isaac-ng.exe", width = 800).grid(row = 3, padx = 15, pady = 10)
-	mainloop()
-	sys.exit()
+    # Uninstall mod files when the window is closed
+    root.protocol("WM_DELETE_WINDOW", uninstallMod)
 
-# Check if you're inside the resources path. give warning and close if necessary.
-if os.path.normpath(resourcepath).lower() in os.path.normpath(currentpath).lower():
-	Message(root, justify = CENTER, font = "font 12", text = "Balance Mod is in your resources directory.\nMove it elsewhere before running.", width = 600).grid(row = 0, pady = 10)
-	mainloop()
-	sys.exit()
-
-# Create a folder to temporarily hold files until Balance Mod is done
-seed()
-dmtmpfolder = '../resources_tmp' + str(randint(1000000000,9999999999))
-if not os.path.exists(os.path.join(resourcepath, dmtmpfolder)):
-	os.mkdir(os.path.join(resourcepath, dmtmpfolder))
-
-# Copy all the files and folders EXCEPT the 'packed' folder to dmtmpfolder
-for resourcefile in os.listdir(resourcepath):
-	if resourcefile != 'packed' and resourcefile != dmtmpfolder:
-		try:
-			if os.path.isfile(os.path.join(resourcepath, resourcefile)):
-				shutil.copyfile(os.path.join(resourcepath, resourcefile), os.path.join(resourcepath, dmtmpfolder, resourcefile))
-			elif os.path.isdir(os.path.join(resourcepath, resourcefile)):
-				shutil.copytree(os.path.join(resourcepath, resourcefile), os.path.join(resourcepath, dmtmpfolder, resourcefile))
-		except Exception, e:
-			print e
-
-# Button to install mod and restart Rebirth
-dmiconimage = Image.open("otherFiles/libra.png")
-dmicon = ImageTk.PhotoImage(dmiconimage)
-Button(root, image = dmicon, text = '   Start Balance Mod   ', compound = "left", command = installMod, font = "font 16").grid(row = 1, pady = 30, columnspan = 1)
-Button(root, image = get_item_icon('Undefined'), text = '   Practice Mode   ', compound = "left", command = lambda:practiceWindow(root), font = "font 16").grid(row=1, column=1, pady=30)
-
-# Instructions
-Message(root, justify = CENTER, text = "Rebirth will open when you start the mod.", font = "font 13", width = 475).grid(row = 2, column = 0, columnspan = 2, padx = 20)
-Message(root, justify = CENTER, text = "Keep this program open while playing.", font = "font 13", width = 475).grid(row = 3, column = 0, columnspan = 2, padx = 20)
-Message(root, justify = CENTER, text = "Rebirth will returns to normal when this program is closed.\n\n", font = "font 13", width = 500).grid(row = 4, column = 0, columnspan = 2, padx = 20)
-
-# Uninstall mod files when the window is closed
-root.protocol("WM_DELETE_WINDOW", uninstallMod)
-
-# Infinite loop
-mainloop()
+    # Infinite loop
+    mainloop()
