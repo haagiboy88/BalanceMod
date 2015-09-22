@@ -176,27 +176,27 @@ def practiceWindow(root):
 				return curr
 
 			if redhearts:
-				fullreds = int(int(redhearts)/2)
+				fullreds = int(int(redhearts) / 2)
 				current = add_hearts(fullreds, 0)
-				if int(redhearts)%2 == 1:
+				if int(redhearts) % 2 == 1:
 					current = add_hearts(1,1)
 			if heartcontainers:
-				current = add_hearts(int(heartcontainers)/2, 2)
+				current = add_hearts(int(heartcontainers) / 2, 2)
 			if soulhearts:
-				fullsouls = int(int(soulhearts)/2)
+				fullsouls = int(int(soulhearts) / 2)
 				current = add_hearts(fullsouls, 5)
-				if int(soulhearts)%2 == 1:
+				if int(soulhearts) % 2 == 1:
 					current = add_hearts(1,6)
 			if blackhearts:
-				fullblacks = int(int(blackhearts)/2)
+				fullblacks = int(int(blackhearts) / 2)
 				current = add_hearts(fullblacks, 7)
-				if int(blackhearts)%2 == 1:
+				if int(blackhearts) % 2 == 1:
 					add_hearts(1, 8)
 			return hearts_frame
 
 		pWin = Toplevel(root)
 		pWin.title("Practice Selector")
-		pWin.resizable(False,True)
+		pWin.resizable(False, True)
 		pWin.protocol("WM_DELETE_WINDOW", close_window)
 		pWin.tk.call('wm', 'iconphoto', pWin._w, get_item_icon('There\'s Options'))
 
