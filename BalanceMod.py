@@ -540,7 +540,7 @@ if __name__ == '__main__':
 	# Instructions
 	Message(root, justify = CENTER, text = "Rebirth will open when you start the mod.", font = "font 13", width = 475).grid(row = 2, column = 0, columnspan = 2, padx = 20)
 	Message(root, justify = CENTER, text = "Keep this program open while playing.", font = "font 13", width = 475).grid(row = 3, column = 0, columnspan = 2, padx = 20)
-	Message(root, justify = CENTER, text = "Rebirth will returns to normal when this program is closed.\n\n", font = "font 13", width = 500).grid(row = 4, column = 0, columnspan = 2, padx = 20)
+	Message(root, justify = CENTER, text = "Rebirth will return to normal when this program is closed.\n\n", font = "font 13", width = 500).grid(row = 4, column = 0, columnspan = 2, padx = 20)
 
 	# Uninstall mod files when the window is closed
 	root.protocol("WM_DELETE_WINDOW", uninstallMod)
