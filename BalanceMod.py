@@ -4,7 +4,7 @@
 #---------------
 
 # Configuration
-version = 1.0
+version = 1.1
 
 # Imports
 import _winreg
@@ -326,6 +326,7 @@ def practiceWindow(root):
 
 def installMod():
 	global items_xml, items_info
+
 	# Remove all the files and folders EXCEPT packed and tmp_folder
 	for resourcefile in os.listdir(resourcepath):
 		if resourcefile != 'packed' and resourcefile != tmp_folder :
@@ -342,16 +343,20 @@ def installMod():
 		elif os.path.isdir(current_file):
 			shutil.copytree(current_file, os.path.join(resourcepath, resourcefile))
 
+	# If the user is practicing a particular build, set the build to be that one
 	if practiceStart != '':
 		current_build = None
 		for build in builds:
 			if build.attrib['id'] == practiceStart:
 				current_build = build
 				break
+
+	# The user is not doing practice so get a random build
 	else:
 		seed()
 		current_build = choice(builds)
 
+	# Read the 3 mod files into memory
 	players_xml = ET.parse('gameFiles/players.xml')
 	players_info = players_xml.getroot()
 	itempools_xml = ET.parse('gameFiles/itempools.xml')
@@ -370,7 +375,8 @@ def installMod():
 
 	if items or trinket:
 		for child in players_info:
-			if child.attrib['name']=='Isaac':
+			characterList = ['Isaac', 'Magdalene', 'Cain', 'Judas', '???', 'Eve', 'Samson', 'Azazel', 'Lazarus']
+			if child.attrib['name'] in characterList:
 				if items:
 					items = items.split(' + ')
 					for i in range(0, len(items)):
