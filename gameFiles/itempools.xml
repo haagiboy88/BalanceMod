@@ -124,8 +124,6 @@
 		<Item Id="110" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Demon Baby-->
 		<Item Id="113" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
-		<!--Moms Knife-->
-		<Item Id="114" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Ouija Board-->
 		<Item Id="115" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Dead Bird-->
@@ -162,8 +160,6 @@
 		<Item Id="147" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Infestation-->
 		<Item Id="148" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
-		<!--Ipecac-->
-		<Item Id="149" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Tough love-->
 		<Item Id="150" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--The Mulligan-->
@@ -190,8 +186,6 @@
 		<Item Id="163" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Harlequin baby-->
 		<Item Id="167" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
-		<!--Epic Fetus-->
-		<Item Id="168" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Polyphemus-->
 		<Item Id="169" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Daddy longlegs-->
@@ -560,8 +554,6 @@
 		<Item Id="97" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Demon Baby-->
 		<Item Id="113" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
-		<!--Moms Knife-->
-		<Item Id="114" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Brimstone-->
 		<Item Id="118" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Whore of Babylon-->
@@ -916,8 +908,6 @@
 		<Item Id="102" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<!--Moms Contacts-->
 		<Item Id="110" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
-		<!--Moms Knife-->
-		<Item Id="114" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<!--Moms Purse-->
 		<Item Id="139" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<!--Moms coin purse-->
