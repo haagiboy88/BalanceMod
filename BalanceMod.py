@@ -393,7 +393,6 @@ def installMod():
 									del child.attrib[key]
 				if trinket:
 						child.set('trinket', get_trinket_id(trinket))
-				break
 
 	if removed_items:
 		removed_items = removed_items.split(' + ')
