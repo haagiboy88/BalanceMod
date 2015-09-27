@@ -379,6 +379,19 @@ def draw_startroom_background(items, removed_items=None, trinket=None, id="Undef
 		result = join_images_vertical(create_text_image('Build #' + id, font), result) # Add the build ID
 	return result
 
+def draw_character_menu(current_build):
+	# Open character menu graphic and write the build on it.
+	color = (54, 47, 45)
+	characterimg = Image.open("otherFiles/charactermenu.png")
+	characterdraw = ImageDraw.Draw(characterimg)
+	smallfont = ImageFont.truetype("otherFiles/comicbd.ttf", 10)
+	largefont = ImageFont.truetype("otherFiles/comicbd.ttf", 14)
+	seedtext = (("Practicing Build #" + current_build.attrib['id']) if practiceStart != '' else "Random Build")
+	w, h = characterdraw.textsize("Balance Mod v" + str(version), font = smallfont)
+	w2, h2 = characterdraw.textsize(seedtext, font = largefont)
+	characterdraw.text((240-w/2, 31), "Balance Mod v" + str(version), color, font = smallfont)
+	characterdraw.text((240-w2/2, 41), seedtext, color , font = largefont)
+	characterimg.save(resourcepath + '/gfx/ui/main menu/charactermenu.png')
 
 def installMod():
 	global items_xml, items_info, practiceStart
@@ -406,7 +419,6 @@ def installMod():
 			if build.attrib['id'] == practiceStart:
 				current_build = build
 				break
-		practiceStart = ''
 
 
 	# The user is not doing practice so get a random build
@@ -477,10 +489,16 @@ def installMod():
 	itempools_xml.write(os.path.join(resourcepath, 'itempools.xml'))
 	items_xml.write(os.path.join(resourcepath, 'items.xml'))
 	draw_startroom_background(items, removed_items, trinket, current_build.attrib['id']).save('controls.png')
-	os.mkdir(resourcepath + '/gfx/backdrop/')
+	try:
+		os.mkdir(resourcepath + '/gfx/backdrop/')
+	except:
+		pass
 	os.rename('controls.png', resourcepath + '/gfx/backdrop/controls.png')
+	draw_character_menu(current_build)
 	with open(os.path.join(resourcepath, 'info.txt'), 'w') as f:
 		f.write("Balance Mod " + str(version))
+
+	practiceStart = ''
 
 	# If Rebirth is running, kill it
 	FNULL = open(os.devnull, 'w')
