@@ -44,11 +44,6 @@ def regkey_value(path, name="", start_key = None):
 				i += 1
 			return desc[1]
 
-def newRandomSeed():
-	global seedIsRNG
-	seed()
-	seedIsRNG = ''.join(choice(ascii_uppercase + digits) for _ in range(6))
-	entryseed.set(seedIsRNG)
 
 # ---------------------
 # Practice Window Stuff
@@ -353,22 +348,24 @@ def join_images_horizontal(left, right):
 # Draw and return the background image listing starting and removed items for the
 # starting room and attach it to the controls image.
 def draw_startroom_background(items, removed_items, trinket):
-	result = Image.open('otherFiles/controls.png')
+	result = None
 	if removed_items:
-		removed_image = Image.open('otherFiles/removed_items.png')
+		result = Image.open('otherFiles/removed_items.png')
+		removed_image = None
 		for item in removed_items:
-			item_image = get_item_icon(item, False).resize((24,24), Image.ANTIALIAS)
-			removed_image = join_images_horizontal(removed_image, item_image)
-		result = join_images_vertical(removed_image, result)
+			item_image = get_item_icon(item, False)
+			removed_image = join_images_horizontal(removed_image, item_image) if removed_image else item_image
+		result = join_images_vertical(result, removed_image)
 	if items or trinket:
-		items_image = Image.open('otherFiles/starting_items.png')
+		items_image = None
 		if items:
 			for item in items:
-				item_image = get_item_icon(item, False).resize((24,24), Image.ANTIALIAS)
-				items_image = join_images_horizontal(items_image, item_image)
+				item_image = get_item_icon(item, False)
+				items_image = join_images_horizontal(items_image, item_image) if items_image else item_image
 		if trinket:
-			items_image = join_images_horizontal(items_image, get_trinket_icon(trinket, False))
-		result = join_images_vertical(items_image, result)
+			items_image = join_images_horizontal(items_image, get_trinket_icon(trinket, False)) if items_image else item_image
+		result = join_images_vertical(items_image, result) if result else items_image
+		result = join_images_vertical(Image.open('otherFiles/starting_items.png'), result)
 	return result
 
 
