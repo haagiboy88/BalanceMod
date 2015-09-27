@@ -55,13 +55,20 @@ def newRandomSeed():
 # ---------------------
 
 # get_image - Load the image from the provided path in a format suitable for Tk
-def get_image(path):
+def get_image(path, tk_image=True):
 	from os import sep
-	image = _image_library.get(path)
-	if image is None:
-		canonicalized_path = path.replace('/', sep).replace('\\', sep)
-		image = ImageTk.PhotoImage(Image.open(canonicalized_path))
-		_image_library[path] = image
+	if tk_image:
+		image = _image_library.get(path)
+		if image is None:
+			canonicalized_path = path.replace('/', sep).replace('\\', sep)
+			image = ImageTk.PhotoImage(Image.open(canonicalized_path))
+			_image_library[path] = image
+	else:
+		image = _raw_image_library.get(path)
+		if image is None:
+			canonicalized_path = path.replace('/', sep).replace('\\', sep)
+			image = Image.open(canonicalized_path)
+			_raw_image_library[path] = image
 	return image
 
 # get_item_dict - Return an item dictionary based on the provided item id or name
@@ -101,26 +108,26 @@ def get_trinket_id(id):
 				return child.attrib['id']
 
 # get_item_icon - Given the name or id of an item, return its icon image
-def get_item_icon(id):
+def get_item_icon(id, tk_image=True):
 	dict = get_item_dict(id)
 	if dict:
 		icon_file = dict['gfx'][:16].lower() + '.png'
-		return get_image(items_icons_path + icon_file)
+		return get_image(items_icons_path + icon_file, tk_image)
 	else:
-		return get_image(items_icons_path + "questionmark.png")
+		return get_image(items_icons_path + "questionmark.png", tk_image)
 
 # get_trinket_icon - Given the name or id of a trinket, return its icon image
-def get_trinket_icon(id):
+def get_trinket_icon(id, tk_image=True):
 	id = str(id)
 	if id.isdigit():
 		for child in items_info:
 			if child.attrib['id'] == id and child.tag == 'trinket':
-				return get_image(trinket_icons_path + child.attrib['gfx'])
+				return get_image(trinket_icons_path + child.attrib['gfx'], tk_image)
 	else:
 		for child in items_info:
 			if child.attrib['name'] == id and child.tag == 'trinket':
-				return get_image(trinket_icons_path + child.attrib['gfx'])
-	return get_image(trinket_icons_path + "questionmark.png")
+				return get_image(trinket_icons_path + child.attrib['gfx'], tk_image)
+	return get_image(trinket_icons_path + "questionmark.png", tk_image)
 
 # get_heart_icons - Process the hearts image into the individual heart icons and return them
 def get_heart_icons():
@@ -324,6 +331,47 @@ def practiceWindow(root):
 # Main window and installation functions
 # --------------------------------------
 
+# Given two images, return one image with the two connected vertically, centered if necessary
+def join_images_vertical(top, bottom):
+	# Create a new image big enough to fit both of the old ones
+	result = Image.new(top.mode, (max(top.width, bottom.width), top.height+bottom.height))
+	middle_paste = int(result.width/2 - top.width/2)
+	result.paste(top, (middle_paste, 0))
+	middle_paste = int(result.width/2 - bottom.width/2)
+	result.paste(bottom, (middle_paste, top.height))
+	return result
+
+# Given two images, return one image with the two connected horizontally, centered if necessary
+def join_images_horizontal(left, right):
+	result = Image.new(left.mode, (left.width+right.width, max(left.height, right.height)))
+	middle_paste = int(result.height/2 - left.height/2)
+	result.paste(left, (0, middle_paste))
+	middle_paste = int(result.height/2 - right.height/2)
+	result.paste(right, (left.width, middle_paste))
+	return result
+
+# Draw and return the background image listing starting and removed items for the
+# starting room and attach it to the controls image.
+def draw_startroom_background(items, removed_items, trinket):
+	result = Image.open('otherFiles/controls.png')
+	if removed_items:
+		removed_image = Image.open('otherFiles/removed_items.png')
+		for item in removed_items:
+			item_image = get_item_icon(item, False).resize((24,24), Image.ANTIALIAS)
+			removed_image = join_images_horizontal(removed_image, item_image)
+		result = join_images_vertical(removed_image, result)
+	if items or trinket:
+		items_image = Image.open('otherFiles/starting_items.png')
+		if items:
+			for item in items:
+				item_image = get_item_icon(item, False).resize((24,24), Image.ANTIALIAS)
+				items_image = join_images_horizontal(items_image, item_image)
+		if trinket:
+			items_image = join_images_horizontal(items_image, get_trinket_icon(trinket, False))
+		result = join_images_vertical(items_image, result)
+	return result
+
+
 def installMod():
 	global items_xml, items_info
 
@@ -374,11 +422,14 @@ def installMod():
 	heartcontainers = current_build.get('heartcontainers')
 
 	if items or trinket:
+		if items:
+			items = items.split(' + ')
 		for child in players_info:
 			characterList = ['Isaac', 'Magdalene', 'Cain', 'Judas', '???', 'Eve', 'Samson', 'Azazel', 'Lazarus']
 			if child.attrib['name'] in characterList:
+				if trinket:
+						child.set('trinket', get_trinket_id(trinket))
 				if items:
-					items = items.split(' + ')
 					for i in range(0, len(items)):
 						items[i] = get_item_id(items[i])
 					# Add the items to the player.xml
@@ -391,8 +442,7 @@ def installMod():
 							for key in ['hearts', 'soulhearts', 'blackhearts', 'maxhearts']:
 								if key in child.attrib:
 									del child.attrib[key]
-				if trinket:
-						child.set('trinket', get_trinket_id(trinket))
+
 
 	if removed_items:
 		removed_items = removed_items.split(' + ')
@@ -416,6 +466,9 @@ def installMod():
 	players_xml.write(os.path.join(resourcepath, 'players.xml'))
 	itempools_xml.write(os.path.join(resourcepath, 'itempools.xml'))
 	items_xml.write(os.path.join(resourcepath, 'items.xml'))
+	draw_startroom_background(items, removed_items, trinket).save('controls.png')
+	os.mkdir(resourcepath + '/gfx/backdrop/')
+	os.rename('controls.png', resourcepath + '/gfx/backdrop/controls.png')
 	with open(os.path.join(resourcepath, 'info.txt'), 'w') as f:
 		f.write("Balance Mod " + str(version))
 
@@ -469,6 +522,7 @@ if __name__ == '__main__':
 	practiceStart = ''
 
 	_image_library = {} # Item images library
+	_raw_image_library = {} # Item images library
 	pWin = None # Keep track of whether the practice window is open
 	items_xml = ET.parse('gameFiles/items.xml')
 	items_info = items_xml.getroot()
