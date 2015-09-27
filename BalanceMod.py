@@ -1,6 +1,6 @@
 #---------------
 # BalanceMod.py
-# by Zamiel
+# by Inschato and Zamiel
 #---------------
 
 # Configuration
@@ -22,7 +22,9 @@ items_icons_path = "otherFiles/collectibles/"
 trinket_icons_path = "otherFiles/trinkets/"
 builds = ET.parse('otherFiles/builds.xml').getroot()
 
-# Subroutines
+# --------------------------------------
+# Utility functions
+# --------------------------------------
 
 # regkey_value - Used to find the path to Steam
 def regkey_value(path, name="", start_key = None):
@@ -126,18 +128,18 @@ def get_trinket_icon(id, tk_image=True):
 
 # get_heart_icons - Process the hearts image into the individual heart icons and return them
 def get_heart_icons():
-	hearts_list = [None]*10
+	hearts_list = [None] * 10
 	hearts = Image.open('otherFiles/ui_hearts.png')
 	# 16x16 left upper right lower
-	hearts_list[0] = ImageTk.PhotoImage(hearts.crop((0,0,16,16)))  # Full red
-	hearts_list[1] = ImageTk.PhotoImage(hearts.crop((16,0,32,16))) # Half red
-	hearts_list[2] = ImageTk.PhotoImage(hearts.crop((32,0,48,16))) # Empty heart
-	hearts_list[3] = ImageTk.PhotoImage(hearts.crop((48,0,64,16))) # left half eternal
-	hearts_list[4] = ImageTk.PhotoImage(hearts.crop((64,0,80,16))) # right half eternal overlap
-	hearts_list[5] = ImageTk.PhotoImage(hearts.crop((0,16,16,32))) # full soul
-	hearts_list[6] = ImageTk.PhotoImage(hearts.crop((16,16,32,32)))# half soul
-	hearts_list[7] = ImageTk.PhotoImage(hearts.crop((32,16,48,32)))# full black
-	hearts_list[8] = ImageTk.PhotoImage(hearts.crop((48,16,64,32)))# half black
+	hearts_list[0] = ImageTk.PhotoImage(hearts.crop((0, 0, 16, 16)))  # Full red
+	hearts_list[1] = ImageTk.PhotoImage(hearts.crop((16, 0, 32, 16))) # Half red
+	hearts_list[2] = ImageTk.PhotoImage(hearts.crop((32, 0, 48, 16))) # Empty heart
+	hearts_list[3] = ImageTk.PhotoImage(hearts.crop((48, 0, 64, 16))) # Left half eternal
+	hearts_list[4] = ImageTk.PhotoImage(hearts.crop((64, 0, 80, 16))) # Right half eternal overlap
+	hearts_list[5] = ImageTk.PhotoImage(hearts.crop((0, 16, 16, 32))) # Full soul
+	hearts_list[6] = ImageTk.PhotoImage(hearts.crop((16, 16, 32, 32)))# Half soul
+	hearts_list[7] = ImageTk.PhotoImage(hearts.crop((32, 16, 48, 32)))# Full black
+	hearts_list[8] = ImageTk.PhotoImage(hearts.crop((48, 16, 64, 32)))# Half black
 	return hearts_list
 
 # practiceWindow - Display the practice mode window
@@ -315,12 +317,10 @@ def practiceWindow(root):
 			build_frame.pack(pady=5, padx=3, fill=X)
 
 		pWin.update() # Update the window so the widgets give their actual dimensions
-		height = max(min(int(pWin.winfo_vrootheight() * 2 / 3), imageBox.winfo_height() + 4),
-				pWin.winfo_height())
+		height = max(min(int(pWin.winfo_vrootheight() * 2 / 3), imageBox.winfo_height() + 4), pWin.winfo_height())
 		width = imageBox.winfo_width() + scrollbar.winfo_width() + 2
 		pWin.geometry('%dx%d' % (width, height))
 		pWin.update() # Then update with the newly calculated height
-
 
 # --------------------------------------
 # Main window and installation functions
@@ -330,18 +330,18 @@ def practiceWindow(root):
 def join_images_vertical(top, bottom):
 	# Create a new image big enough to fit both of the old ones
 	result = Image.new(top.mode, (max(top.width, bottom.width), top.height+bottom.height))
-	middle_paste = int(result.width/2 - top.width/2)
+	middle_paste = int(result.width / 2 - top.width / 2)
 	result.paste(top, (middle_paste, 0))
-	middle_paste = int(result.width/2 - bottom.width/2)
+	middle_paste = int(result.width / 2 - bottom.width / 2)
 	result.paste(bottom, (middle_paste, top.height))
 	return result
 
 # Given two images, return one image with the two connected horizontally, centered if necessary
 def join_images_horizontal(left, right):
 	result = Image.new(left.mode, (left.width+right.width, max(left.height, right.height)))
-	middle_paste = int(result.height/2 - left.height/2)
+	middle_paste = int(result.height / 2 - left.height / 2)
 	result.paste(left, (0, middle_paste))
-	middle_paste = int(result.height/2 - right.height/2)
+	middle_paste = int(result.height / 2 - right.height / 2)
 	result.paste(right, (left.width, middle_paste))
 	return result
 
@@ -480,7 +480,7 @@ def installMod():
 		call(resourcepath + '/../isaac-ng.exe')
 
 def uninstallMod():
-	# Remove all the files and folders EXCEPT packed and tmp_folder
+	# Remove all the files and folders EXCEPT the "packed" and the temporary folder
 	for resourcefile in os.listdir(resourcepath):
 		if resourcefile != 'packed':
 			if os.path.isfile(os.path.join(resourcepath, resourcefile)):
@@ -488,7 +488,7 @@ def uninstallMod():
 			elif os.path.isdir(os.path.join(resourcepath, resourcefile)):
 				shutil.rmtree(os.path.join(resourcepath, resourcefile))
 
-	# Copy all the files and folders EXCEPT the 'packed' folder to tmp_folder
+	# Copy all the files and folders EXCEPT the "packed" folder to the temporary folder
 	if tmp_folder:
 		for tmp_file in os.listdir(os.path.join(resourcepath, tmp_folder)):
 			if os.path.isfile(os.path.join(resourcepath, tmp_folder, tmp_file)):
@@ -503,6 +503,7 @@ def uninstallMod():
 def setcustompath():
 	# Open file dialog
 	isaacpath = askopenfilename()
+
 	# Check that the file is isaac-ng.exe and the path is good
 	if isaacpath [-12:] == "isaac-ng.exe" and os.path.exists(isaacpath[0:-12] + 'resources'):
 		customs.set('options', 'custompath', isaacpath [0:-12] + 'resources')
@@ -536,12 +537,15 @@ if __name__ == '__main__':
 	# Check and set the paths for file creation, exit if not found
 	currentpath = os.getcwd()
 	SteamPath = regkey_value(r"HKEY_CURRENT_USER\Software\Valve\Steam", "SteamPath")
+
 	# First check the custom path from the options.ini file
 	if customs.has_option('options', 'custompath') and os.path.exists(customs.get('options', 'custompath')):
 		resourcepath = customs.get('options', 'custompath')
+
 	# Second, check the steam path that we found from the registry
 	elif os.path.isdir(SteamPath + "/steamapps/common/The Binding of Isaac Rebirth/resources"):
 		resourcepath = SteamPath + "/steamapps/common/The Binding of Isaac Rebirth/resources"
+
 	# Third, go through the motions of writing and saving a new path to options.ini
 	else:
 		feedback.set("")
