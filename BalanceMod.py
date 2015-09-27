@@ -375,7 +375,7 @@ def draw_startroom_background(items, removed_items=None, trinket=None, id="Undef
 			items_image = join_images_horizontal(items_image, get_trinket_icon(trinket, False)) if items_image else item_image
 		result = join_images_vertical(items_image, result) if result else items_image # Add the starting items
 		result = join_images_vertical(create_text_image('Starting Items', font), result) # Add start label
-		result = join_images_vertical(Image.new('RGBA', (5,15)), result) # Add some space
+		result = join_images_vertical(Image.new('RGBA', (5, 15)), result) # Add some space
 		result = join_images_vertical(create_text_image('Build #' + id, font), result) # Add the build ID
 	return result
 
@@ -389,8 +389,8 @@ def draw_character_menu(current_build):
 	seedtext = (("Practicing Build #" + current_build.attrib['id']) if practiceStart != '' else "Random Build")
 	w, h = characterdraw.textsize("Balance Mod v" + str(version), font = smallfont)
 	w2, h2 = characterdraw.textsize(seedtext, font = largefont)
-	characterdraw.text((240-w/2, 31), "Balance Mod v" + str(version), color, font = smallfont)
-	characterdraw.text((240-w2/2, 41), seedtext, color , font = largefont)
+	characterdraw.text((240 - w / 2, 31), "Balance Mod v" + str(version), color, font = smallfont)
+	characterdraw.text((240 - w2 / 2, 41), seedtext, color , font = largefont)
 	characterimg.save(resourcepath + '/gfx/ui/main menu/charactermenu.png')
 
 def installMod():
@@ -454,10 +454,12 @@ def installMod():
 				if items:
 					for i in range(0, len(items)):
 						items[i] = get_item_id(items[i])
+
 					# Add the items to the player.xml
 					for item in items:
 						id = get_item_id(item)
 						child.attrib['items'] += ("," + id)
+
 					# Remove health ups from the items in items.xml
 					for child in items_info:
 						if child.attrib['id'] in items:
