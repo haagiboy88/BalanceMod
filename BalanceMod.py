@@ -351,13 +351,13 @@ def create_text_image(text, font):
 	w, h = ImageDraw.Draw(img).textsize(text, font=font)
 	result = Image.new('RGBA', (w, h)) # Actual image, just large enough to fit the text
 	ImageDraw.Draw(result).text((0,0), text, (0,0,0), font=font)
-	return result
+	return result.resize((int(result.width/2),int(result.height/2)), Image.ANTIALIAS)
 
 # Draw and return the background image listing starting and removed items for the
 # starting room and attach it to the controls image.
 def draw_startroom_background(items, removed_items=None, trinket=None, id="Undefined"):
 	result = None
-	font = ImageFont.truetype("otherFiles/olden.ttf", 14)
+	font = ImageFont.truetype("otherFiles/olden.ttf", 32)
 	if removed_items:
 		result = create_text_image('Removed Items', font)
 		removed_image = None
