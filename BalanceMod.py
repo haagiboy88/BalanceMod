@@ -345,12 +345,21 @@ def join_images_horizontal(left, right):
 	result.paste(right, (left.width, middle_paste))
 	return result
 
+# Create an image containing the specified text
+def create_text_image(text, font):
+	img = Image.new('RGBA', (1000,100)) # Dummy image
+	w, h = ImageDraw.Draw(img).textsize(text, font=font)
+	result = Image.new('RGBA', (w, h)) # Actual image, just large enough to fit the text
+	ImageDraw.Draw(result).text((0,0), text, (0,0,0), font=font)
+	return result
+
 # Draw and return the background image listing starting and removed items for the
 # starting room and attach it to the controls image.
-def draw_startroom_background(items, removed_items, trinket):
+def draw_startroom_background(items, removed_items=None, trinket=None, id="Undefined"):
 	result = None
+	font = ImageFont.truetype("otherFiles/olden.ttf", 14)
 	if removed_items:
-		result = Image.open('otherFiles/removed_items.png')
+		result = create_text_image('Removed Items', font)
 		removed_image = None
 		for item in removed_items:
 			item_image = get_item_icon(item, False)
@@ -364,8 +373,10 @@ def draw_startroom_background(items, removed_items, trinket):
 				items_image = join_images_horizontal(items_image, item_image) if items_image else item_image
 		if trinket:
 			items_image = join_images_horizontal(items_image, get_trinket_icon(trinket, False)) if items_image else item_image
-		result = join_images_vertical(items_image, result) if result else items_image
-		result = join_images_vertical(Image.open('otherFiles/starting_items.png'), result)
+		result = join_images_vertical(items_image, result) if result else items_image # Add the starting items
+		result = join_images_vertical(create_text_image('Starting Items', font), result) # Add start label
+		result = join_images_vertical(Image.new('RGBA', (5,15)), result) # Add some space
+		result = join_images_vertical(create_text_image(font, 'Build #' + id), result) # Add the build ID
 	return result
 
 
@@ -463,7 +474,7 @@ def installMod():
 	players_xml.write(os.path.join(resourcepath, 'players.xml'))
 	itempools_xml.write(os.path.join(resourcepath, 'itempools.xml'))
 	items_xml.write(os.path.join(resourcepath, 'items.xml'))
-	draw_startroom_background(items, removed_items, trinket).save('controls.png')
+	draw_startroom_background(items, removed_items, trinket, current_build.attrib['id']).save('controls.png')
 	os.mkdir(resourcepath + '/gfx/backdrop/')
 	os.rename('controls.png', resourcepath + '/gfx/backdrop/controls.png')
 	with open(os.path.join(resourcepath, 'info.txt'), 'w') as f:
