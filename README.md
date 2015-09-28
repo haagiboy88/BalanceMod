@@ -1,6 +1,6 @@
 # Balance Mod
 
-Balance Mod is a racing mod for The Binding of Isaac: Rebirth.
+Balance Mod is a racing mod for *The Binding of Isaac: Rebirth*.
 
 Download here: https://github.com/Zamiell/BalanceMod/releases
 
