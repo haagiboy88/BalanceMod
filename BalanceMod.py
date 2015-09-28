@@ -281,7 +281,7 @@ def practiceWindow(root):
 				widget.image = get_trinket_icon(trinket)
 				widget.configure(image=widget.image)
 				widget.bind("<Button-1>", select_build)
-				widget.grid(row=0, column=len(items)+1)
+				widget.grid(row=0, column=len(items) + 1)
 			items_frame.grid(row=0, column=2, sticky=W)
 
 			# Health
