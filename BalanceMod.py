@@ -361,10 +361,18 @@ def draw_startroom_background(items, removed_items=None, trinket=None, id="Undef
 	if removed_items:
 		result = create_text_image('Removed Items', font)
 		removed_image = None
-		for item in removed_items:
+		for item in removed_items[:10]:
 			item_image = get_item_icon(item, False)
 			removed_image = join_images_horizontal(removed_image, item_image) if removed_image else item_image
 		result = join_images_vertical(result, removed_image)
+		removed_image = None
+		for item in removed_items[10:19]:
+			item_image = get_item_icon(item, False)
+			removed_image = join_images_horizontal(removed_image, item_image) if removed_image else item_image
+		if removed_image:
+			if len(removed_items) > 19:
+				removed_image = join_images_horizontal(removed_image, create_text_image('+' + str(len(removed_items)-19), font))
+			result = join_images_vertical(result, removed_image)
 	if items or trinket:
 		items_image = None
 		if items:
