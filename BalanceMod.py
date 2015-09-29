@@ -10,7 +10,6 @@ version = 1.2
 import _winreg
 import shutil, os, ConfigParser
 import xml.etree.ElementTree as ET
-from string import ascii_uppercase, digits
 from Tkinter import *
 from tkFileDialog import askopenfilename
 from random import seed, choice, randint
@@ -152,9 +151,9 @@ def practiceWindow(root):
 			pWin.destroy()
 			pWin = None
 
-		def select_build(event):
+		def select_build(event=None, build_widget=None):
 			global practiceStart
-			widget = event.widget
+			widget = event.widget if event else build_widget
 			while not hasattr(widget, 'build'):
 				if widget == root:
 					return
@@ -163,6 +162,30 @@ def practiceWindow(root):
 			practiceStart = build.attrib['id']
 			close_window()
 			installMod()
+
+		# Callback for the search entry changing: Will hide any builds that don't match the search.
+		def search_builds(sv):
+			search_term = sv.get().lower()
+			for widget in build_frames:
+				item_name = widget.build.attrib['id']
+				try:
+					if not re.search('^' + search_term, item_name):
+						widget.grid_remove()
+					else:
+						widget.grid()
+				except:
+					widget.grid()
+
+		# Callback for pressing enter in the search box: if only one build is visible, launch it.
+		def select_search_builds():
+			build = None
+			for child in build_frames:
+				if child.winfo_manager() != "" and build:
+					return
+				elif child.winfo_manager() != "":
+					build = child
+			if build:
+				select_build(build_widget=build)
 
 		def make_hearts_frame(parent, redhearts, soulhearts, blackhearts, heartcontainers):
 			hearts_frame = Canvas(parent, bg=current_bgcolor)
@@ -234,20 +257,38 @@ def practiceWindow(root):
 
 		# _on_mousewheel - Code taken from: http://stackoverflow.com/questions/17355902/python-tkinter-binding-mousewheel-to-scrollbar
 		def _on_mousewheel(event):
-			canvas.yview_scroll(-1 * (event.delta / 120), "units") # This works anywhere in the program; will need to change if there is ever more than one scrollbar
+			canvas.yview_scroll(-1 * (event.delta / 120), "units")
 
 		# Define keyboard bindings
-		root.bind_all("<MouseWheel>", _on_mousewheel)
+		pWin.bind("<MouseWheel>", _on_mousewheel)
 		pWin.bind("<Home>", lambda event: canvas.yview_moveto(0))
 		pWin.bind("<End>", lambda event: canvas.yview_moveto(1))
 		pWin.bind("<Prior>", lambda event: canvas.yview_scroll(-1, 'pages'))
 		pWin.bind("<Next>", lambda event: canvas.yview_scroll(1, 'pages'))
 
 		# Start to build the GUI window
+		current_row = 0
 		hearts_list = get_heart_icons()
-		Label(imageBox, text="Click a build to play it", font="font 32 bold").pack(pady=5)
+		Label(imageBox, text="Click a build to play it", font="font 32 bold").grid(row=current_row, pady=5)
+		current_row += 1
+
+		# Search label and entry box
+		search_widget_space = Label(imageBox)
+		Label(search_widget_space, text="Search: ").grid(row=0, column=0)
+		build_search_string = StringVar()
+		build_search_string.trace("w", lambda name, index, mode, sv=build_search_string: search_builds(sv))
+		build_search_entry = Entry(search_widget_space, width=12, textvariable=build_search_string)
+		build_search_entry.bind("<Escape>", lambda event: event.widget.delete(0,END))
+		build_search_entry.bind("<Return>", lambda event: select_search_builds())
+		build_search_entry.grid(row=0, column=1)
+		search_widget_space.grid(row=current_row)
+		pWin.entry = build_search_entry # Keep track of this for later
+		current_row += 1
+
+		# Build Frames
 		current_bgcolor = '#949494'
-		for child in builds:
+		build_frames = [None] * len(builds)
+		for index, child in enumerate(builds):
 			# Background color
 			current_bgcolor = '#E0E0E0' if current_bgcolor == '#949494' else '#949494'
 
@@ -255,6 +296,7 @@ def practiceWindow(root):
 			build_frame = LabelFrame(imageBox, bg=current_bgcolor)
 			build_frame.bind("<Button-1>", select_build)
 			build_frame.build = child
+			build_frames[index] = build_frame
 
 			# ID
 			widget = Label(build_frame, text=child.attrib['id'], font="font 32 bold", bg=current_bgcolor, width=2)
@@ -314,13 +356,16 @@ def practiceWindow(root):
 			else:
 				# Keep the spacing consistent by adding an empty invisible frame of the same height as an item
 				Frame(build_frame, width=0,  height=32, bg=current_bgcolor, borderwidth=0).grid(row=2, column=2, sticky=W)
-			build_frame.pack(pady=5, padx=3, fill=X)
+			build_frame.grid(row=current_row, pady=5, padx=3, sticky=W+E)
+			current_row += 1
 
 		pWin.update() # Update the window so the widgets give their actual dimensions
 		height = max(min(int(pWin.winfo_vrootheight() * 2 / 3), imageBox.winfo_height() + 4), pWin.winfo_height())
 		width = imageBox.winfo_width() + scrollbar.winfo_width() + 2
 		pWin.geometry('%dx%d' % (width, height))
 		pWin.update() # Then update with the newly calculated height
+		imageBox.grid_columnconfigure(0, minsize=imageBox.winfo_width()) # Maintain the maximum width
+	pWin.entry.focus() # Put the focus on the entry box whenever this window is opened
 
 # --------------------------------------
 # Main window and installation functions
@@ -469,11 +514,11 @@ def installMod():
 						child.attrib['items'] += ("," + id)
 
 					# Remove health ups from the items in items.xml
-					for child in items_info:
-						if child.attrib['id'] in items:
+					for item in items_info:
+						if item.attrib['id'] in items:
 							for key in ['hearts', 'soulhearts', 'blackhearts', 'maxhearts']:
-								if key in child.attrib:
-									del child.attrib[key]
+								if key in item.attrib:
+									del item.attrib[key]
 
 
 	if removed_items:
@@ -635,8 +680,13 @@ if __name__ == '__main__':
 		tmp_folder = None
 
 	# Button to install mod and restart Rebirth
-	Button(root, image = get_item_icon('Libra'), text = '   Start Balance Mod   ', compound = "left", command = installMod, font = "font 16").grid(row = 1, pady = 30, columnspan = 1)
-	Button(root, image = get_item_icon('There\'s Options'), text = '   Practice Mode   ', compound = "left", command = lambda:practiceWindow(root), font = "font 16").grid(row=1, column=1, pady=30)
+	start_button = Button(root, image = get_item_icon('Libra'), text = ' Start Balance Mod (1) ', compound = "left", command = installMod, font = "font 16")
+	start_button.grid(row = 1, pady = 30, columnspan = 1)
+	practice_button = Button(root, image = get_item_icon('There\'s Options'), text = ' Practice Mode (2) ', compound = "left", command = lambda:practiceWindow(root), font = "font 16")
+	practice_button.grid(row=1, column=1, pady=30)
+
+	root.bind("1", lambda event: start_button.invoke())
+	root.bind("2", lambda event: practice_button.invoke())
 
 	# Instructions
 	Message(root, justify = CENTER, text = "Rebirth will open when you start the mod.", font = "font 13", width = 475).grid(row = 2, column = 0, columnspan = 2, padx = 20)
