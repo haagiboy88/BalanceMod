@@ -8,8 +8,9 @@
 <builds>
 	<build id="1" weight="2" items="Mom's Knife" redhearts="1" removed="Epic Fetus + Ipecac + Cricket's Head + Magic Mushroom + Tech.5 + The Inner Eye + Mutant Spider" />
 	<build id="2" weight="2" items="Epic Fetus + Jesus Juice + Blood Clot" redhearts="2" removed="Mom's Knife + Ipecac + Abaddon" />
-	<build id="3" weight="2" items="Godhead + The Sad Onion + Strange Attractor" redhearts="1" removed="Mom's Knife + Epic Fetus + Ipecac + 20/20 + Proptosis + Mutant Spider" />
-	<build id="4" weight="1" items="Ipecac + The Sad Onion" trinket="Cancer" redhearts="2" soulhearts="2" removed="Mom's Knife + Epic Fetus + Dr. Fetus + Infestation 2 + Monstro's Lung + Chocolate Milk + Guppy's Paw + Guppy's Collar + Guppy's Tail + Guppy's Hairball" />
+	<build id="3" weight="2" items="Ipecac + The Sad Onion" trinket="Cancer" redhearts="2" soulhearts="2" removed="Mom's Knife + Epic Fetus + Dr. Fetus + Infestation 2 + Monstro's Lung + Chocolate Milk + Guppy's Paw + Guppy's Collar + Guppy's Tail + Guppy's Hairball" />
+
+	<build id="4" weight="1" items="Godhead + The Sad Onion + Strange Attractor" redhearts="1" removed="Mom's Knife + Epic Fetus + Ipecac + 20/20 + Proptosis + Mutant Spider" />
 	<build id="5" weight="1" items="Libra + Soy Milk + Isaac's Heart" redhearts="1" removed="Mom's Knife + Epic Fetus + Ipecac + Guppy's Head + Guppy's Paw + Guppy's Collar + Guppy's Hairball" />
 	<build id="6" weight="1" items="Guppy's Tail + Guppy's Collar + Guppy's Hairball + Little Steven" redhearts="1" removed="Mom's Knife + Epic Fetus + Ipecac + Brimstone + Monstro's Lung + Polyphemus + Proptosis + 20/20 + Cricket's Body + Hive Mind" />
 	<build id="7" weight="1" items="Brimstone + Steven + The Pact + Wooden Spoon" redhearts="2" removed="Mom's Knife + Epic Fetus + Ipecac + Tammy's Head + Sacred Heart + Proptosis + Polyphemus + The Inner Eye + Mutant Spider + Guppy's Head + Guppy's Paw + Guppy's Collar + Guppy's Hairball" />
