@@ -4,7 +4,7 @@
 #----------------------------------------------------
 
 # Configuration
-version = "1.2"
+version = "1.3"
 installName = 'BalanceMod-' + version
 
 # Imports

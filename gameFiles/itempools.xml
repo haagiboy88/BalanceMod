@@ -174,8 +174,6 @@
 		<Item Id="155" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Blood Lust-->
 		<Item Id="157" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
-		<!--Crystal Ball-->
-		<Item Id="158" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Crack the Sky-->
 		<Item Id="160" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Ank-->
@@ -376,8 +374,6 @@
 		<Item Id="329" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Lazarus' Rags-->
 		<Item Id="332" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
-		<!--Mind-->
-		<Item Id="333" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Body-->
 		<Item Id="334" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Soul-->
@@ -388,8 +384,6 @@
 	<Pool Name="shop">
 		<!--The Compass-->
 		<Item Id="21" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
-		<!--Treasure Map-->
-		<Item Id="54" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<!--The Ladder-->
 		<Item Id="60" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<!--The Battery-->
@@ -548,8 +542,6 @@
 		<Item Id="82" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--The Nail-->
 		<Item Id="83" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
-		<!--We need to go deeper!-->
-		<Item Id="84" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--The Book of Sin-->
 		<Item Id="97" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Demon Baby-->
@@ -638,8 +630,6 @@
 		<Item Id="331" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Lazarus' Rags-->
 		<Item Id="332" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
-		<!--Mind-->
-		<Item Id="333" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Body-->
 		<Item Id="334" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Soul-->
@@ -674,8 +664,6 @@
 		<Item Id="106" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Sack of Pennies-->
 		<Item Id="94" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
-		<!--We need to go deeper!-->
-		<Item Id="84" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--A Quarter-->
 		<Item Id="74" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--The Necronomicon-->
@@ -768,8 +756,6 @@
 		<Item Id="25" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<!--Lucky Foot-->
 		<Item Id="46" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
-		<!--Treasure Map-->
-		<Item Id="54" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<!--The Compass-->
 		<Item Id="21" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<!--Mom's Bottle of Pills-->

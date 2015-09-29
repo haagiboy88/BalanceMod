@@ -4,7 +4,7 @@
 #---------------
 
 # Configuration
-version = 1.2
+version = 1.3
 
 # Imports
 import _winreg
@@ -291,7 +291,7 @@ def practiceWindow(root):
 		build_search_string = StringVar()
 		build_search_string.trace("w", lambda name, index, mode, sv=build_search_string: search_builds(sv))
 		build_search_entry = Entry(search_widget_space, width=12, textvariable=build_search_string)
-		build_search_entry.bind("<Escape>", lambda event: event.widget.delete(0,END))
+		build_search_entry.bind("<Escape>", lambda event: event.widget.delete(0, END))
 		build_search_entry.bind("<Return>", lambda event: select_search_builds())
 		build_search_entry.grid(row=0, column=1)
 		search_widget_space.grid(row=current_row)
