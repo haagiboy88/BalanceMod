@@ -12,7 +12,7 @@ import shutil, os, ConfigParser
 import xml.etree.ElementTree as ET
 from Tkinter import *
 from tkFileDialog import askopenfilename
-from random import seed, choice, randint
+from random import seed, choice, randint, random
 from PIL import Image, ImageFont, ImageDraw, ImageTk
 from subprocess import call
 
@@ -45,6 +45,19 @@ def regkey_value(path, name="", start_key = None):
 				i += 1
 			return desc[1]
 
+# http://eli.thegreenplace.net/2010/01/22/weighted-random-generation-in-python
+def weighted_choice(weights):
+	totals = []
+	running_total = 0
+
+	for w in weights:
+		running_total += w
+		totals.append(running_total)
+
+	rnd = random() * running_total
+	for i, total in enumerate(totals):
+		if rnd < total:
+			return i
 
 # ---------------------
 # Practice Window Stuff
@@ -477,7 +490,8 @@ def installMod():
 	# The user is not doing practice so get a random build
 	else:
 		seed()
-		current_build = choice(builds)
+		build_weights = [float(build.attrib['weight']) for build in builds]
+		current_build = builds[weighted_choice(build_weights)]
 
 	# Read the 3 mod files into memory
 	players_xml = ET.parse('gameFiles/players.xml')
