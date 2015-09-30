@@ -4,7 +4,7 @@
 #---------------
 
 # Configuration
-version = 1.3
+version = 1.4
 
 # Imports
 import _winreg
