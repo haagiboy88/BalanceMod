@@ -6,8 +6,6 @@
 		<Item Id="2" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Spoon Bender-->
 		<Item Id="3" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
-		<!--Max's Head-->
-		<Item Id="4" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--My Reflection-->
 		<Item Id="5" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Number one-->
@@ -18,8 +16,6 @@
 		<Item Id="8" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Halo of Flies-->
 		<Item Id="10" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
-		<!--Magic Mushroom-->
-		<Item Id="12" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--<3-->
 		<Item Id="15" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Boom!-->
@@ -262,14 +258,10 @@
 		<Item Id="242" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Tech.5-->
 		<Item Id="244" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
-		<!--20/20-->
-		<Item Id="245" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Hot Bombs-->
 		<Item Id="256" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Fire Mind-->
 		<Item Id="257" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
-		<!--Proptosis-->
-		<Item Id="261" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Smart Fly-->
 		<Item Id="264" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Dry Baby-->
@@ -340,8 +332,6 @@
 		<Item Id="309" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Eve's Mascara-->
 		<Item Id="310" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
-		<!--Judas' Shadow-->
-		<Item Id="311" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Maggy's Bow-->
 		<Item Id="312" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Holy Mantle-->
@@ -436,8 +426,6 @@
 		<Item Id="199" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 	</Pool>
 	<Pool Name="boss">
-		<!--Magic Mushroom-->
-		<Item Id="12" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Roid Rage-->
 		<Item Id="14" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--<3-->
@@ -598,8 +586,6 @@
 		<Item Id="278" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 		<!--Satanic Bible-->
 		<Item Id="292" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
-		<!--Judas' Shadow-->
-		<Item Id="311" Weight="1" DecreaseBy="1.0" RemoveOn="0.1"/>
 	</Pool>
 	<Pool Name="angel">
 		<!--Rosary-->
@@ -712,8 +698,6 @@
 		<Item Id="292" Weight="1" DecreaseBy="0.1" RemoveOn="0.1"/>
 	</Pool>
 	<Pool Name="goldenChest">
-		<!--Max's Head-->
-		<Item Id="4" Weight="1" DecreaseBy="0.4" RemoveOn="0.1"/>
 		<!--Tammy's Head-->
 		<Item Id="38" Weight="1" DecreaseBy="0.4" RemoveOn="0.1"/>
 		<!--Bob's Rotten Head-->

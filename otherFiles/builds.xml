@@ -7,33 +7,33 @@
 
 <builds>
 	<!-- Double probability -->
-	<build id="1" weight="2" items="Mom's Knife" redhearts="1" removed="Cricket's Head + Magic Mushroom + Tech.5 + The Inner Eye + Mutant Spider" />
+	<build id="1" weight="2" items="Mom's Knife" redhearts="1" removed="Tech.5 + The Inner Eye + Mutant Spider" />
 	<build id="2" weight="2" items="Epic Fetus + Jesus Juice + Blood Clot" redhearts="2" removed="Abaddon" />
 	<build id="3" weight="2" items="Ipecac + The Sad Onion" trinket="Cancer" redhearts="2" soulhearts="2" removed="Dr. Fetus + Infestation 2 + Monstro's Lung + Chocolate Milk + Guppy's Paw + Guppy's Collar + Guppy's Tail + Guppy's Hairball" />
 
 	<!-- Normal probability -->
-	<build id="4" weight="1" items="Godhead + There's Options + The Sad Onion + Strange Attractor" redhearts="1" removed="20/20 + Proptosis + Mutant Spider" />
+	<build id="4" weight="1" items="Godhead + There's Options + The Sad Onion + Strange Attractor" redhearts="1" removed="Mutant Spider" />
 	<build id="5" weight="1" items="Soy Milk + There's Options + Judas' Shadow + Proptosis" redhearts="1" removed="Libra + Guppy's Head + Guppy's Paw + Guppy's Collar + Guppy's Hairball" />
-	<build id="6" weight="1" items="Guppy's Tail + Guppy's Collar + Guppy's Hairball + Little Steven" redhearts="1" removed="Brimstone + Monstro's Lung + Polyphemus + Proptosis + 20/20 + Cricket's Body + Hive Mind" />
-	<build id="7" weight="1" items="Brimstone + Steven + The Pact + Wooden Spoon" redhearts="2" removed="Tammy's Head + Sacred Heart + Proptosis + Polyphemus + The Inner Eye + Mutant Spider + Guppy's Head + Guppy's Paw + Guppy's Collar + Guppy's Hairball" />
+	<build id="6" weight="1" items="Guppy's Tail + Guppy's Collar + Guppy's Hairball + Little Steven" redhearts="1" removed="Brimstone + Monstro's Lung + Polyphemus + Cricket's Body + Hive Mind" />
+	<build id="7" weight="1" items="Brimstone + Steven + The Pact + Wooden Spoon" redhearts="2" removed="Tammy's Head + Sacred Heart + Polyphemus + The Inner Eye + Mutant Spider + Guppy's Head + Guppy's Paw + Guppy's Collar + Guppy's Hairball" />
 	<build id="8" weight="1" items="Brimstone + The Ludovico Technique" redhearts="1" removed="Tammy's Head" />
-	<build id="9" weight="1" items="20/20 + There's Options + A Lump of Coal + Guillotine" redhearts="2" removed="" />
-	<build id="10" weight="1" items="20/20 + There's Options + Rubber Cement + Cricket's Body" redhearts="1" soulhearts="1" removed="" />
+	<build id="9" weight="1" items="20/20 + There's Options + A Lump of Coal + Guillotine + The Pact + PHD" redhearts="2" removed="" />
+	<build id="10" weight="1" items="20/20 + Rubber Cement + Cricket's Body" redhearts="1" soulhearts="1" removed="" />
 	<build id="11" weight="1" items="Proptosis + There's Options + The Pact + The Halo + Starter Deck" redhearts="2" removed="" />
 	<build id="12" weight="1" items="Tech.5 + There's Options + Steven + The Halo + Starter Deck" redhearts="2" removed="" />
 	<build id="13" weight="1" items="Tech.5 + Technology + Technology 2 + Godhead + There's Options + Steven" redhearts="1" removed="" />
 	<build id="14" weight="1" items="Tech.5 + Eve's Mascara + Infestation 2 + Rotten Baby + Capricorn + Pisces" redhearts="1" removed="Hive Mind" />
-	<build id="15" weight="1" items="Lil' Brimstone + BFFS! + Aries" redhearts="1" removed="" />
+	<build id="15" weight="1" items="Lil' Brimstone + Little Chubby + BFFS! + There's Options + Aries" redhearts="1" removed="" />
 	<build id="16" weight="1" items="Lil' Brimstone + Scapular + The Negative + There's Options + Daddy Longlegs" redhearts="1" soulhearts="1" removed="" />
 	<build id="17" weight="1" items="Sacred Heart + 120 + There's Options" redhearts="2" removed="Brimstone" />
-	<build id="18" weight="1" items="Magic Mushroom + Steven + Dead Onion + Screw" redhearts="1" removed="" />
-	<build id="19" weight="1" items="Cricket's Head + Steven + Dead Onion + Screw" redhearts="1" removed="" />
+	<build id="18" weight="1" items="Magic Mushroom + Steven + Dead Onion + Screw + Sissy Long Legs" redhearts="1" removed="" />
+	<build id="19" weight="1" items="Cricket's Head + Steven + Dead Onion + Screw + Lucky Foot" redhearts="1" removed="" />
 	<build id="20" weight="1" items="Monstro's Lung + There's Options + The Pact + SMB Super Fan + Tough Love" redhearts="1" soulhearts="1" removed="Chocolate Milk + Guppy's Head + Guppy's Paw + Guppy's Collar + Guppy's Hairball" />
-	<build id="21" weight="1" items="Cricket's Body + There's Options + The Pact + SMB Super Fan + Tough Love" redhearts="1" soulhearts="1" removed="Guppy's Head + Guppy's Paw + Guppy's Collar + Guppy's Hairball" />
+	<build id="21" weight="1" items="Cricket's Body + There's Options + The Pact + SMB Super Fan + Money Equals Power" redhearts="1" soulhearts="1" coins="25" removed="Guppy's Head + Guppy's Paw + Guppy's Collar + Guppy's Hairball" />
 	<build id="22" weight="1" items="Death's Touch + There's Options + The Pact + Steven + Mom's Perfume" redhearts="1" soulhearts="1" removed="" />
 	<build id="23" weight="1" items="Mutant Spider + There's Options + Growth Hormones + The Pact + Cupid's Arrow" redhearts="1" removed="" />
 	<build id="24" weight="1" items="Mutant Spider + There's Options + Libra + Mom's Heels + Mom's Underwear + Mom's Lipstick" redhearts="1" removed="Soy Milk" />
-	<build id="25" weight="1" items="The Inner Eye + Death's Touch + There's Options + A Lump of Coal + Steven" redhearts="1" removed="" />
+	<build id="25" weight="1" items="The Inner Eye + Death's Touch + There's Options + A Lump of Coal + Steven + The Pact" redhearts="1" removed="" />
 	<build id="26" weight="1" items="Polyphemus + There's Options + Growth Hormones + The Pact + Sacrificial Dagger" redhearts="1" removed="Guppy's Head + Guppy's Paw + Guppy's Collar + Guppy's Hairball" />
 	<build id="27" weight="1" items="Judas' Shadow + Guillotine + There's Options + Growth Hormones + Cupid's Arrow" redhearts="1" removed="" />
 	<build id="28" weight="1" items="Bloody Lust + Goat Head + Squeezy + The Parasite + Anti-Gravity + Juicy Sack + Steven" redhearts="12" heartcontainers="12" removed="" />
