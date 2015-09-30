@@ -150,14 +150,15 @@ def get_heart_icons():
 	'''
 	hearts_list = [None] * 9
 	hearts = Image.open('otherFiles/ui_hearts.png')
+
 	# 16x16 left upper right lower
 	for index in range(0, 9):
-		left = (16*index)%80
+		left = (16 * index) % 80
 		top = 0 if index < 5 else 16
-		bottom = top+16
-		right = left+16
+		bottom = top + 16
+		right = left + 16
 		hearts_list[index] = hearts.crop((left, top, right, bottom))
-		hearts_list[index] = hearts_list[index].resize((int(hearts_list[index].width*icon_zoom), int(hearts_list[index].height*icon_zoom)), icon_filter)
+		hearts_list[index] = hearts_list[index].resize((int(hearts_list[index].width * icon_zoom), int(hearts_list[index].height * icon_zoom)), icon_filter)
 		hearts_list[index] = PI(hearts_list[index])
 	return hearts_list
 

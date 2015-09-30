@@ -79,7 +79,7 @@
 	<active achievement="7" description="Reusable soul protection" gfx="Collectibles_078_BookOfRevelations.png" id="78" maxcharges="6" name="Book of Revelations" />
 	<passive cache="damage speed" description="DMG up" gfx="Collectibles_079_TheMark.png" id="79" name="The Mark" soulhearts="2" />
 	<passive cache="damage firedelay" description="DMG + tears up" devilprice="2" gfx="Collectibles_080_ThePact.png" id="80" name="The Pact" soulhearts="4" />
-	<familiar description="9 lives" devilprice="2" gfx="Collectibles_081_DeadCat.png" id="81" name="Dead Cat" />
+	<familiar description="9 lives" gfx="Collectibles_081_DeadCat.png" id="81" name="Dead Cat" />
 	<passive cache="flying" description="Demon wings" devilprice="2" gfx="Collectibles_082_LordOfThePit.png" id="82" name="Lord of the Pit" />
 	<active achievement="9" cache="speed damage" description="Temporary demon form" devilprice="2" gfx="Collectibles_083_TheNail.png" id="83" maxcharges="6" name="The Nail" />
 	<active description="Reusable level skip" gfx="Collectibles_084_WeNeedToGoDeeper.png" id="84" maxcharges="6" name="We Need To Go Deeper!" />
@@ -131,8 +131,8 @@
 	<active cache="flying speed" description="Flight + dash attack" gfx="Collectibles_130_APony.png" id="130" maxcharges="4" name="A Pony" />
 	<familiar achievement="46" description="Gives bombs" gfx="Collectibles_131_BombBag.png" id="131" name="Bomb Bag" />
 	<passive cache="damage tearflag tearcolor" description="My Xmas present" gfx="Collectibles_132_ALumpOfCoal.png" id="132" name="A Lump of Coal" />
-	<active description="Soul converter" devilprice="2" gfx="Collectibles_133_GuppysPaw.png" id="133" maxcharges="0" name="Guppy's Paw" />
-	<passive description="Cursed?" devilprice="2" gfx="Collectibles_134_GuppysTail.png" id="134" name="Guppy's Tail" />
+	<active description="Soul converter" gfx="Collectibles_133_GuppysPaw.png" id="133" maxcharges="0" name="Guppy's Paw" />
+	<passive description="Cursed?" gfx="Collectibles_134_GuppysTail.png" id="134" name="Guppy's Tail" />
 	<active cooldown="15" description="Portable blood bank" gfx="Collectibles_135_IVBag.png" id="135" maxcharges="0" name="IV Bag" />
 	<active description="Friends 'till the end" gfx="Collectibles_136_BestFriend.png" id="136" maxcharges="3" name="Best Friend" />
 	<active bombs="5" cooldown="2" description="Remote bomb detonation" gfx="Collectibles_137_RemoteDetonator.png" id="137" maxcharges="0" name="Remote Detonator" />
@@ -143,7 +143,7 @@
 	<passive description="You have been blessed" gfx="Collectibles_142_Scapular.png" id="142" name="Scapular" />
 	<passive cache="speed shotspeed" description="Speed + shot speed up" gfx="Collectibles_143_Speedball.png" id="143" name="Speed Ball" />
 	<familiar description="He's greedy" gfx="Collectibles_144_BumFriend.png" id="144" name="Bum Friend" />
-	<active description="Reusable fly hive" devilprice="2" gfx="Collectibles_145_GuppysHead.png" id="145" maxcharges="1" name="Guppy's Head" />
+	<active description="Reusable fly hive" gfx="Collectibles_145_GuppysHead.png" id="145" maxcharges="1" name="Guppy's Head" />
 	<active description="Reusable eternity " gfx="Collectibles_146_PrayerCard.png" id="146" maxcharges="6" name="Prayer Card" />
 	<active description="Rocks don't stand a chance" gfx="Collectibles_147_NotchedAxe.png" id="147" maxcharges="3" name="Notched Axe" />
 	<passive description="They grow inside" gfx="Collectibles_148_Infestation.png" id="148" name="Infestation" />
@@ -185,7 +185,7 @@
 	<passive cache="flying" description="Flight + HP up" gfx="Collectibles_184_HolyGrail.png" hearts="2" id="184" maxhearts="2" name="Holy Grail" />
 	<passive cache="flying tearflag tearcolor" description="Flight + spectral tears" gfx="Collectibles_185_DeadDove.png" id="185" name="Dead Dove" />
 	<active achievement="56" description="Mass enemy damage at a cost" gfx="Collectibles_186_BloodRights.png" id="186" maxcharges="0" name="Blood Rights" />
-	<familiar achievement="65" description="Swing it" devilprice="2" gfx="Collectibles_187_GuppysHairball.png" id="187" name="Guppy's Hairball" />
+	<familiar achievement="65" description="Swing it" gfx="Collectibles_187_GuppysHairball.png" id="187" name="Guppy's Hairball" />
 	<familiar achievement="51" description="Mirrored buddy" gfx="Collectibles_188_Abel.png" id="188" name="Abel" />
 	<passive achievement="63" cache="firedelay damage speed range" description="All stats up" gfx="Collectibles_189_SMBSuperFan.png" hearts="99" id="189" maxhearts="2" name="SMB Super Fan" />
 	<passive bombs="99" description="99 bombs" gfx="Collectibles_190_Pyro.png" id="190" name="Pyro" />
@@ -211,7 +211,7 @@
 	<passive bombs="5" description="Toxic blast +5 bombs" gfx="collectibles_209_buttbombs.png" id="209" name="Butt Bombs" />
 	<passive description="Unbreakable" gfx="Collectibles_210_GnawedLeaf.png" id="210" name="Gnawed Leaf" />
 	<passive description="Spider revenge" gfx="collectibles_211_spiderbaby.png" id="211" name="Spiderbaby" />
-	<passive description="Eternal life?" devilprice="2" gfx="Collectibles_212_GuppysCollar.png" id="212" name="Guppy's Collar" />
+	<passive description="Eternal life?" gfx="Collectibles_212_GuppysCollar.png" id="212" name="Guppy's Collar" />
 	<passive cache="shotspeed" description="Shielded tears" gfx="collectibles_213_lostcontact.png" id="213" name="Lost Contact" />
 	<passive cache="range" description="Toxic blood" gfx="collectibles_214_anemic.png" id="214" name="Anemic" />
 	<passive description="He accepts your offering" gfx="collectibles_215_goathead.png" id="215" name="Goat Head" />
