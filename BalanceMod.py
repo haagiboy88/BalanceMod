@@ -162,6 +162,28 @@ def get_heart_icons():
 		hearts_list[index] = PI(hearts_list[index])
 	return hearts_list
 
+def get_hud_icons():
+	'''
+	hud_icons[0] = # coins
+	hud_icons[1] = # keys
+	hud_icons[2] = # hardmode
+	hud_icons[3] = # bombs
+	hud_icons[4] = # golden key
+	hud_icons[5] = # no achievements
+	'''
+	hud_icons = [None] * 6
+	hud_image = Image.open('otherFiles/hudpickups.png')
+
+	for index in range(0, 6):
+		left = (16 * index) % 48
+		top = 0 if index < 3 else 16
+		bottom = top + 16
+		right = left + 16
+		hud_icons[index] = hud_image.crop((left, top, right, bottom))
+		hud_icons[index] = hud_icons[index].resize((int(hud_icons[index].width * icon_zoom), int(hud_icons[index].height * icon_zoom)), icon_filter)
+		hud_icons[index] = PI(hud_icons[index])
+	return hud_icons
+
 # practiceWindow - Display the practice mode window
 def practiceWindow(root):
 	global pWin
@@ -205,18 +227,22 @@ def practiceWindow(root):
 					break
 
 
-		def make_hearts_frame(parent, redhearts, soulhearts, blackhearts, heartcontainers):
-			hearts_frame = Canvas(parent, bg=current_bgcolor)
+		def make_hearts_and_consumables_canvas(parent, build):
+			current_canvas = Canvas(parent, bg=current_bgcolor)
 			current = 0
+			redhearts = build.attrib.get('redhearts')
+			soulhearts = build.attrib.get('soulhearts')
+			blackhearts = build.attrib.get('blackhearts')
+			heartcontainers = build.attrib.get('heartcontainers')			
 
 			def add_hearts(amount, type):
 				curr = current
 				for i in range(0, amount):
-					widget = Label(hearts_frame, bg=current_bgcolor)
+					widget = Label(current_canvas, bg=current_bgcolor)
 					widget.image = hearts_list[type]
 					widget.configure(image=widget.image)
 					widget.bind("<Button-1>", select_build)
-					widget.grid(column=curr, row=0)
+					widget.grid(column=curr%6, row=0 if curr < 6 else 1)
 					curr+=1
 				return curr
 
@@ -237,7 +263,57 @@ def practiceWindow(root):
 				current = add_hearts(fullblacks, 7)
 				if int(blackhearts) % 2 == 1:
 					add_hearts(1, 8)
-			return hearts_frame
+			if build.attrib.get('coins') or build.attrib.get('bombs') or build.attrib.get('keys'):
+				widget = Label(current_canvas, text="     Consumables:", bg=current_bgcolor)
+				widget.bind("<Button-1>", select_build)
+				widget.grid(column=current, row=0, rowspan=2, sticky=NSEW)
+				current+=1
+			if build.attrib.get('coins'):
+				widget = Label(current_canvas, bg=current_bgcolor)
+				widget.image = hud_list[0]
+				widget.configure(image=widget.image)
+				widget.bind("<Button-1>", select_build)
+				widget.grid(column=current, row=0, rowspan=2)
+				current+=1
+				widget = Label(current_canvas, text=build.attrib['coins'], bg=current_bgcolor)
+				widget.bind("<Button-1>", select_build)
+				widget.grid(column=current, row=0, rowspan=2, sticky=NSEW)
+				current+=1
+			if build.attrib.get('bombs'):
+				widget = Label(current_canvas, bg=current_bgcolor)
+				widget.image = hud_list[3]
+				widget.configure(image=widget.image)
+				widget.bind("<Button-1>", select_build)
+				widget.grid(column=current, row=0, rowspan=2)
+				current+=1
+				widget = Label(current_canvas, text=build.attrib['bombs'], bg=current_bgcolor)
+				widget.bind("<Button-1>", select_build)
+				widget.grid(column=current, row=0, rowspan=2, sticky=NSEW)
+				current+=1
+			if build.attrib.get('keys'):
+				widget = Label(current_canvas, bg=current_bgcolor)
+				widget.image = hud_list[1]
+				widget.configure(image=widget.image)
+				widget.bind("<Button-1>", select_build)
+				widget.grid(column=current, row=0, rowspan=2)
+				current+=1
+				widget = Label(current_canvas, text=build.attrib['keys'], bg=current_bgcolor)
+				widget.bind("<Button-1>", select_build)
+				widget.grid(column=current, row=0, rowspan=2, sticky=NSEW)
+				current+=1
+			if build.attrib.get('card'):
+				card_info = ET.parse('gameFiles/pocketitems.xml').getroot()
+				card_name = None
+				for card in card_info:
+					if card.tag in ['card', 'rune'] and card.attrib['id'] == build.attrib['card']:
+						card_name = card.attrib['name']
+						break
+				widget = Label(current_canvas, text='     Card: ' + card_name, bg=current_bgcolor)
+				widget.bind("<Button-1>", select_build)
+				widget.grid(column=current, row=0, rowspan=2, sticky=NSEW)
+				current+=1
+
+			return current_canvas
 
 		pWin = Toplevel(root)
 		pWin.title("Practice Selector")
@@ -287,6 +363,7 @@ def practiceWindow(root):
 		# Start to build the GUI window
 		current_row = 0
 		hearts_list = get_heart_icons()
+		hud_list = get_hud_icons()
 		Label(imageBox, text="Click a build to play it", font="font 32 bold").grid(row=current_row, pady=5)
 		current_row += 1
 
@@ -350,13 +427,10 @@ def practiceWindow(root):
 			widget = Label(build_frame, text="Health: ", bg=current_bgcolor)
 			widget.bind("<Button-1>", select_build)
 			widget.grid(row=1, column=1, sticky=E)
-			redhearts = child.attrib.get('redhearts')
-			soulhearts = child.attrib.get('soulhearts')
-			blackhearts = child.attrib.get('blackhearts')
-			heartcontainers = child.attrib.get('heartcontainers')
-			hearts_frame = make_hearts_frame(build_frame, redhearts, soulhearts, blackhearts, heartcontainers)
-			hearts_frame.bind("<Button-1>", select_build)
-			hearts_frame.grid(row=1, column=2, sticky=W)
+
+			hearts_and_consumables_frame = make_hearts_and_consumables_canvas(build_frame, child)
+			hearts_and_consumables_frame.bind("<Button-1>", select_build)
+			hearts_and_consumables_frame.grid(row=1, column=2, sticky=W)
 
 			# Removed Items
 			widget = Label(build_frame, text="Removed Items: ", bg=current_bgcolor)
@@ -517,6 +591,10 @@ def installMod():
 	soulhearts = current_build.get('soulhearts')
 	blackhearts = current_build.get('blackhearts')
 	heartcontainers = current_build.get('heartcontainers')
+	keys = current_build.get('keys')
+	coins = current_build.get('coins')
+	bombs = current_build.get('bombs')
+	card = current_build.get('card')
 
 	if items or trinket:
 		if items:
@@ -541,7 +619,14 @@ def installMod():
 							for key in ['hearts', 'soulhearts', 'blackhearts', 'maxhearts']:
 								if key in item.attrib:
 									del item.attrib[key]
-
+				if keys:
+					child.set('keys', keys)
+				if coins:
+					child.set('coins', coins)
+				if bombs:
+					child.set('bombs', bombs)
+				if card:
+					child.set('card', card)
 
 	if removed_items:
 		removed_items = removed_items.split(' + ')
