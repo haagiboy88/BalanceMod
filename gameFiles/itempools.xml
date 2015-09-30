@@ -383,11 +383,9 @@
 	</Pool>
 	<Pool Name="shop">
 		<!--The Compass-->
-		<Item Id="21" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
-		<!--The Bible-->
-		<Item Id="33" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+		<Item Id="21" Weight="3" DecreaseBy="0.0" RemoveOn="0.1"/>
 		<!--Treasure Map-->
-		<Item Id="54" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
+		<Item Id="54" Weight="3" DecreaseBy="0.0" RemoveOn="0.1"/>
 		<!--The Ladder-->
 		<Item Id="60" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<!--The Battery-->
@@ -396,20 +394,12 @@
 		<Item Id="64" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<!--PHD-->
 		<Item Id="75" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
-		<!--Deck of Cards-->
-		<Item Id="85" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
-		<!--Mom's Bottle of Pills-->
-		<Item Id="102" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<!--9 Volt-->
 		<Item Id="116" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
-		<!--Remote Detonator-->
-		<Item Id="137" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<!--Moms Purse-->
 		<Item Id="139" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<!--Habit-->
 		<Item Id="156" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
-		<!--Portable Slot!-->
-		<Item Id="177" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<!--Moms coin purse-->
 		<Item Id="195" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<!--Humbleing Bundle-->
@@ -422,8 +412,6 @@
 		<Item Id="208" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<!--Piggy Bank-->
 		<Item Id="227" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
-		<!--Stop Watch-->
-		<Item Id="232" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<!--Blue Map-->
 		<Item Id="246" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<!--There's Options-->
@@ -432,28 +420,14 @@
 		<Item Id="250" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<!--Starter deck-->
 		<Item Id="251" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
-		<!--Little Baggy-->
-		<Item Id="252" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<!--BFFS!-->
 		<Item Id="247" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<!--Hive Mind-->
 		<Item Id="248" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<!--Blank Card-->
 		<Item Id="286" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
-		<!--The Jar-->
-		<Item Id="290" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
-		<!--Red Candle-->
-		<Item Id="289" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
-		<!--The Candle-->
-		<Item Id="164" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
-		<!--Magic Fingers-->
-		<Item Id="295" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
-		<!--Converter-->
-		<Item Id="296" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<!--Blue Box-->
 		<Item Id="297" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
-		<!--Boomerang-->
-		<Item Id="338" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<!--Broken Watch-->
 		<Item Id="337" Weight="1" DecreaseBy="0.5" RemoveOn="0.1"/>
 		<!--Black Candle-->
