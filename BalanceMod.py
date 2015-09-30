@@ -4,7 +4,7 @@
 #---------------
 
 # Configuration
-version = 1.4
+version = 1.5
 
 # Imports
 import _winreg
@@ -48,7 +48,7 @@ def regkey_value(path, name="", start_key = None):
 				i += 1
 			return desc[1]
 
-# http://eli.thegreenplace.net/2010/01/22/weighted-random-generation-in-python
+# weighted_choice - http://eli.thegreenplace.net/2010/01/22/weighted-random-generation-in-python
 def weighted_choice(weights):
 	totals = []
 	running_total = 0
