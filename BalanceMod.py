@@ -15,11 +15,14 @@ from tkFileDialog import askopenfilename
 from random import seed, choice, randint, random
 from PIL import Image, ImageFont, ImageDraw, ImageTk
 from subprocess import call
+PI = ImageTk.PhotoImage
 
 # Constants
 items_icons_path = "otherFiles/collectibles/"
 trinket_icons_path = "otherFiles/trinkets/"
 builds = ET.parse('otherFiles/builds.xml').getroot()
+icon_zoom = 1.3
+icon_filter = Image.BILINEAR
 
 # --------------------------------------
 # Utility functions
@@ -64,20 +67,14 @@ def weighted_choice(weights):
 # ---------------------
 
 # get_image - Load the image from the provided path in a format suitable for Tk
-def get_image(path, tk_image=True):
+def get_image(path):
 	from os import sep
-	if tk_image:
-		image = _image_library.get(path)
-		if image is None:
-			canonicalized_path = path.replace('/', sep).replace('\\', sep)
-			image = ImageTk.PhotoImage(Image.open(canonicalized_path))
-			_image_library[path] = image
-	else:
-		image = _raw_image_library.get(path)
-		if image is None:
-			canonicalized_path = path.replace('/', sep).replace('\\', sep)
-			image = Image.open(canonicalized_path)
-			_raw_image_library[path] = image
+
+	image = _raw_image_library.get(path)
+	if image is None:
+		canonicalized_path = path.replace('/', sep).replace('\\', sep)
+		image = Image.open(canonicalized_path)
+		_raw_image_library[path] = image
 	return image
 
 # get_item_dict - Return an item dictionary based on the provided item id or name
@@ -117,41 +114,51 @@ def get_trinket_id(id):
 				return child.attrib['id']
 
 # get_item_icon - Given the name or id of an item, return its icon image
-def get_item_icon(id, tk_image=True):
+def get_item_icon(id):
 	dict = get_item_dict(id)
 	if dict:
 		icon_file = dict['gfx'][:16].lower() + '.png'
-		return get_image(items_icons_path + icon_file, tk_image)
+		return get_image(items_icons_path + icon_file)
 	else:
-		return get_image(items_icons_path + "questionmark.png", tk_image)
+		return get_image(items_icons_path + "questionmark.png")
 
 # get_trinket_icon - Given the name or id of a trinket, return its icon image
-def get_trinket_icon(id, tk_image=True):
+def get_trinket_icon(id):
 	id = str(id)
 	if id.isdigit():
 		for child in items_info:
 			if child.attrib['id'] == id and child.tag == 'trinket':
-				return get_image(trinket_icons_path + child.attrib['gfx'], tk_image)
+				return get_image(trinket_icons_path + child.attrib['gfx'])
 	else:
 		for child in items_info:
 			if child.attrib['name'] == id and child.tag == 'trinket':
-				return get_image(trinket_icons_path + child.attrib['gfx'], tk_image)
-	return get_image(trinket_icons_path + "questionmark.png", tk_image)
+				return get_image(trinket_icons_path + child.attrib['gfx'])
+	return get_image(trinket_icons_path + "questionmark.png")
 
 # get_heart_icons - Process the hearts image into the individual heart icons and return them
 def get_heart_icons():
-	hearts_list = [None] * 10
+	'''
+	hearts_list[0] = # Full red
+	hearts_list[1] = # Half red
+	hearts_list[2] = # Empty heart
+	hearts_list[3] = # Left half eternal
+	hearts_list[4] = # Right half eternal overlap
+	hearts_list[5] = # Full soul
+	hearts_list[6] = # Half soul
+	hearts_list[7] = # Full black
+	hearts_list[8] = # Half black
+	'''
+	hearts_list = [None] * 9
 	hearts = Image.open('otherFiles/ui_hearts.png')
 	# 16x16 left upper right lower
-	hearts_list[0] = ImageTk.PhotoImage(hearts.crop((0, 0, 16, 16)))  # Full red
-	hearts_list[1] = ImageTk.PhotoImage(hearts.crop((16, 0, 32, 16))) # Half red
-	hearts_list[2] = ImageTk.PhotoImage(hearts.crop((32, 0, 48, 16))) # Empty heart
-	hearts_list[3] = ImageTk.PhotoImage(hearts.crop((48, 0, 64, 16))) # Left half eternal
-	hearts_list[4] = ImageTk.PhotoImage(hearts.crop((64, 0, 80, 16))) # Right half eternal overlap
-	hearts_list[5] = ImageTk.PhotoImage(hearts.crop((0, 16, 16, 32))) # Full soul
-	hearts_list[6] = ImageTk.PhotoImage(hearts.crop((16, 16, 32, 32)))# Half soul
-	hearts_list[7] = ImageTk.PhotoImage(hearts.crop((32, 16, 48, 32)))# Full black
-	hearts_list[8] = ImageTk.PhotoImage(hearts.crop((48, 16, 64, 32)))# Half black
+	for index in range(0, 9):
+		left = (16*index)%80
+		top = 0 if index < 5 else 16
+		bottom = top+16
+		right = left+16
+		hearts_list[index] = hearts.crop((left, top, right, bottom))
+		hearts_list[index] = hearts_list[index].resize((int(hearts_list[index].width*icon_zoom), int(hearts_list[index].height*icon_zoom)), icon_filter)
+		hearts_list[index] = PI(hearts_list[index])
 	return hearts_list
 
 # practiceWindow - Display the practice mode window
@@ -238,7 +245,7 @@ def practiceWindow(root):
 		pWin.title("Practice Selector")
 		pWin.resizable(False, True)
 		pWin.protocol("WM_DELETE_WINDOW", close_window)
-		pWin.tk.call('wm', 'iconphoto', pWin._w, get_item_icon('There\'s Options'))
+		pWin.tk.call('wm', 'iconphoto', pWin._w, PI(get_item_icon('There\'s Options')))
 
 		# Initialize the scrolling canvas
 		canvas = Canvas(pWin, borderwidth=0)
@@ -327,6 +334,7 @@ def practiceWindow(root):
 				for i, item in enumerate(items):
 					widget = Label(items_frame, bg=current_bgcolor)
 					widget.image = get_item_icon(item)
+					widget.image = PI(widget.image.resize((int(widget.image.width*icon_zoom),int(widget.image.height*icon_zoom)), icon_filter))
 					widget.configure(image=widget.image)
 					widget.bind("<Button-1>", select_build)
 					widget.grid(row=0, column=i)
@@ -334,6 +342,7 @@ def practiceWindow(root):
 			if trinket:
 				widget = Label(items_frame, bg=current_bgcolor)
 				widget.image = get_trinket_icon(trinket)
+				widget.image = PI(widget.image.resize((int(widget.image.width*icon_zoom),int(widget.image.height*icon_zoom)), icon_filter))
 				widget.configure(image=widget.image)
 				widget.bind("<Button-1>", select_build)
 				widget.grid(row=0, column=len(items) + 1)
@@ -362,6 +371,7 @@ def practiceWindow(root):
 				for i, item in enumerate(removed_items):
 					widget = Label(removed_items_frame, bg=current_bgcolor)
 					widget.image = get_item_icon(item)
+					widget.image = PI(widget.image.resize((int(widget.image.width*icon_zoom),int(widget.image.height*icon_zoom)), icon_filter))
 					widget.configure(image=widget.image)
 					widget.bind("<Button-1>", select_build)
 					widget.grid(row=2, column=i)
@@ -420,12 +430,12 @@ def draw_startroom_background(items, removed_items=None, trinket=None, id="Undef
 		result = create_text_image('Removed Items', font)
 		removed_image = None
 		for item in removed_items[:10]:
-			item_image = get_item_icon(item, False)
+			item_image = get_item_icon(item)
 			removed_image = join_images_horizontal(removed_image, item_image) if removed_image else item_image
 		result = join_images_vertical(result, removed_image)
 		removed_image = None
 		for item in removed_items[10:19]:
-			item_image = get_item_icon(item, False)
+			item_image = get_item_icon(item)
 			removed_image = join_images_horizontal(removed_image, item_image) if removed_image else item_image
 		if removed_image:
 			if len(removed_items) > 19:
@@ -435,10 +445,10 @@ def draw_startroom_background(items, removed_items=None, trinket=None, id="Undef
 		items_image = None
 		if items:
 			for item in items:
-				item_image = get_item_icon(item, False)
+				item_image = get_item_icon(item)
 				items_image = join_images_horizontal(items_image, item_image) if items_image else item_image
 		if trinket:
-			items_image = join_images_horizontal(items_image, get_trinket_icon(trinket, False)) if items_image else item_image
+			items_image = join_images_horizontal(items_image, get_trinket_icon(trinket)) if items_image else item_image
 		result = join_images_vertical(items_image, result) if result else items_image # Add the starting items
 		result = join_images_vertical(create_text_image('Starting Items', font), result) # Add start label
 		result = join_images_vertical(Image.new('RGBA', (5, 15)), result) # Add some space
@@ -631,7 +641,7 @@ if __name__ == '__main__':
 	if not customs.has_section('options'):
 		customs.add_section('options')
 
-	root.tk.call('wm', 'iconphoto', root._w, get_item_icon('Libra')) # Set the GUI icon
+	root.tk.call('wm', 'iconphoto', root._w, PI(get_item_icon('Libra'))) # Set the GUI icon
 	root.title("Balance Mod v" + str(version)) # Set the GUI title
 
 	# Check and set the paths for file creation, exit if not found
@@ -694,9 +704,13 @@ if __name__ == '__main__':
 		tmp_folder = None
 
 	# Button to install mod and restart Rebirth
-	start_button = Button(root, image = get_item_icon('Libra'), text = ' Start Balance Mod (1) ', compound = "left", command = installMod, font = "font 16")
+	start_button = Button(root, text = ' Start Balance Mod (1) ', compound = "left", command = installMod, font = "font 16")
+	start_button.icon = PI(get_item_icon('Libra'))
+	start_button.configure(image=start_button.icon)
 	start_button.grid(row = 1, pady = 30, columnspan = 1)
-	practice_button = Button(root, image = get_item_icon('There\'s Options'), text = ' Practice Mode (2) ', compound = "left", command = lambda:practiceWindow(root), font = "font 16")
+	practice_button = Button(root, text = ' Practice Mode (2) ', compound = "left", command = lambda:practiceWindow(root), font = "font 16")
+	practice_button.icon = PI(get_item_icon('There\'s Options'))
+	practice_button.configure(image=practice_button.icon)
 	practice_button.grid(row=1, column=1, pady=30)
 
 	root.bind("1", lambda event: start_button.invoke())
