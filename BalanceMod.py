@@ -197,16 +197,13 @@ def practiceWindow(root):
 				except:
 					widget.grid()
 
-		# Callback for pressing enter in the search box: if only one build is visible, launch it.
+		# Callback for pressing enter in the search box: launch the topmost visible build.
 		def select_search_builds():
-			build = None
 			for child in build_frames:
-				if child.winfo_manager() != "" and build:
-					return
-				elif child.winfo_manager() != "":
-					build = child
-			if build:
-				select_build(build_widget=build)
+				if child.winfo_manager() != "":
+					select_build(build_widget=child)
+					break
+
 
 		def make_hearts_frame(parent, redhearts, soulhearts, blackhearts, heartcontainers):
 			hearts_frame = Canvas(parent, bg=current_bgcolor)
