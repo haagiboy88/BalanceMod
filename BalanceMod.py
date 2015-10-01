@@ -12,7 +12,7 @@ import shutil, os, ConfigParser
 import xml.etree.ElementTree as ET
 from Tkinter import *
 from tkFileDialog import askopenfilename
-from random import seed, choice, randint, random
+from random import seed, randint, random
 from PIL import Image, ImageFont, ImageDraw, ImageTk
 from subprocess import call
 PI = ImageTk.PhotoImage
@@ -23,6 +23,9 @@ trinket_icons_path = "otherFiles/trinkets/"
 builds = ET.parse('otherFiles/builds.xml').getroot()
 icon_zoom = 1.3
 icon_filter = Image.BILINEAR
+_raw_image_library = {} # Item images library
+items_xml = ET.parse('gameFiles/items.xml')
+items_info = items_xml.getroot()
 
 # --------------------------------------
 # Utility functions
@@ -218,6 +221,7 @@ def practiceWindow(root):
 						widget.grid()
 				except:
 					widget.grid()
+			canvas.yview_moveto(0)
 
 		# Callback for pressing enter in the search box: launch the topmost visible build.
 		def select_search_builds():
@@ -613,10 +617,10 @@ def installMod():
 						id = get_item_id(item)
 						child.attrib['items'] += ("," + id)
 
-					# Remove health ups from the items in items.xml
+					# Remove health ups and consumables from the items in items.xml
 					for item in items_info:
 						if item.attrib['id'] in items:
-							for key in ['hearts', 'soulhearts', 'blackhearts', 'maxhearts']:
+							for key in ['hearts', 'soulhearts', 'blackhearts', 'maxhearts', 'keys', 'coins', 'bombs']:
 								if key in item.attrib:
 									del item.attrib[key]
 				if keys:
@@ -711,12 +715,7 @@ if __name__ == '__main__':
 	root = Tk()
 	feedback = StringVar()
 	practiceStart = ''
-
-	_image_library = {} # Item images library
-	_raw_image_library = {} # Item images library
 	pWin = None # Keep track of whether the practice window is open
-	items_xml = ET.parse('gameFiles/items.xml')
-	items_info = items_xml.getroot()
 
 	# Import options.ini
 	customs = ConfigParser.RawConfigParser()

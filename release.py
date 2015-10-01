@@ -8,7 +8,7 @@ version = "1.5"
 installName = 'BalanceMod-' + version
 
 # Imports
-import os, sys, shutil, py2exe
+import os, sys, shutil, py2exe, subprocess
 from distutils.core import setup
 
 class py2exefix(py2exe.build_exe.py2exe):
@@ -43,6 +43,11 @@ setup(
 	cmdclass = {'py2exe': py2exefix}
 )
 
+# Remove the Tk demo files, this should always be safe
+shutil.rmtree('dist/tcl/tk8.5/demos')
+shutil.rmtree('dist/tcl/tk8.5/images')
+shutil.rmtree('dist/tcl/tk8.5/msgs')
+
 # Copy the files needed into the installation directory
 shutil.copytree('dist/', installDir)
 shutil.copytree('gameFiles/', installDir + 'gameFiles/')
@@ -50,4 +55,8 @@ shutil.copytree('otherFiles/', installDir + 'otherFiles/')
 shutil.copy('README.md', installDir + "/README.txt")
 
 # Make a ZIP file
+print "Creating zip archive.."
 shutil.make_archive("target/" + installName, "zip", 'target', installName + "/")
+print "Generating builds image.."
+subprocess.call("python DrawBuilds.py")
+print "Done!"
