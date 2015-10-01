@@ -3,13 +3,14 @@
 #     This will compile BalanceMod for the end user.
 #----------------------------------------------------
 
-# Configuration
-version = "1.5"
-installName = 'BalanceMod-' + version
-
 # Imports
 import os, sys, shutil, py2exe, subprocess
 from distutils.core import setup
+from BalanceMod import *
+
+# Configuration
+version = str(BalanceMod.version)
+installName = 'BalanceMod-' + version
 
 class py2exefix(py2exe.build_exe.py2exe):
 	# This hack removes tk85.dll from the list of dlls that don't get bundled, since it can be bundled

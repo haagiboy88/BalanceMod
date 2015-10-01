@@ -303,7 +303,7 @@
 	<passive description="HP up + you feel protected" gfx="collectibles_301_cancer.png" id="301" name="Cancer" soulhearts="6" />
 	<passive description="Stompy" gfx="collectibles_302_leo.png" id="302" name="Leo" />
 	<passive description="You feel refreshed and protected" gfx="collectibles_303_virgo.png" id="303" name="Virgo" />
-	<passive cache="speed firedelay damage range" description="You feel balanced" gfx="collectibles_304_libra.png" id="304" name="Libra" />
+	<passive bombs="6" cache="speed firedelay damage range" coins="6" description="You feel balanced" gfx="collectibles_304_libra.png" id="304" keys="6" name="Libra" />
 	<passive cache="tearflag" description="Poison tears" gfx="collectibles_305_scorpio.png" id="305" name="Scorpio" />
 	<passive cache="tearflag speed" description="Penetrative shot + speed up" gfx="collectibles_306_sagittarius.png" id="306" name="Sagittarius" />
 	<passive bombs="1" cache="speed firedelay damage range" coins="1" description="All stats up" gfx="collectibles_307_capricorn.png" hearts="2" id="307" keys="1" maxhearts="2" name="Capricorn" />

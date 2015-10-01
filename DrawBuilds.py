@@ -1,11 +1,11 @@
 #---------------
-# BalanceMod.py
+# DrawBuilds.py
 # by Inschato
-# Generate an image describing the builds in builds.xml
+# Generates an image describing the builds in builds.xml.
 #---------------
+
 __author__ = 'Inschato'
 target_file = "builds.png"
-
 
 from BalanceMod import *
 
@@ -54,7 +54,7 @@ def draw_builds(items, health=None, removed_items=None, trinket=None, id="Undefi
 			removed_image = join_images_horizontal(removed_image, item_image) if removed_image else item_image
 		if removed_image:
 			if len(removed_items) > 19:
-				removed_image = join_images_horizontal(removed_image, create_text_image('+' + str(len(removed_items)-19), font))
+				removed_image = join_images_horizontal(removed_image, create_text_image('+' + str(len(removed_items) - 19), font))
 			result = join_images_vertical(result, removed_image)
 
 
@@ -122,7 +122,7 @@ if __name__ == '__main__':
 			halfsoul = int(int(soulhearts) % 2)
 		if blackhearts:
 			fullblacks = int(int(blackhearts) / 2)
-			halfblack = int(int(blackhearts)%2)
+			halfblack = int(int(blackhearts) % 2)
 
 		health = (fullreds, halfred, containers, fullsouls, halfsoul, fullblacks, halfblack)
 		if removed_items:
@@ -150,14 +150,14 @@ if __name__ == '__main__':
 			halfsoul = int(int(soulhearts) % 2)
 		if blackhearts:
 			fullblacks = int(int(blackhearts) / 2)
-			halfblack = int(int(blackhearts)%2)
+			halfblack = int(int(blackhearts) % 2)
 
 		health = (fullreds, halfred, containers, fullsouls, halfsoul, fullblacks, halfblack)
 		if removed_items:
 			removed_items = removed_items.split(' + ')
-		build_image = draw_builds(items=build.attrib.get('items').split(' + '), removed_items=removed_items, health=health, trinket=build.attrib.get('trinket'), id=str(index+1), width=width)
-		ImageDraw.Draw(build_image).rectangle((0,0,build_image.width-1, build_image.height-1), outline=(0,0,0))
+		build_image = draw_builds(items=build.attrib.get('items').split(' + '), removed_items=removed_items, health=health, trinket=build.attrib.get('trinket'), id=str(index + 1), width=width)
+		ImageDraw.Draw(build_image).rectangle((0, 0, build_image.width - 1, build_image.height - 1), outline=(0, 0, 0))
 		result = join_images_vertical(result, build_image) if result else build_image
-		result = join_images_vertical(result, Image.new('RGBA', (10,10)))
+		result = join_images_vertical(result, Image.new('RGBA', (10, 10)))
 
 	result.save(target_file)

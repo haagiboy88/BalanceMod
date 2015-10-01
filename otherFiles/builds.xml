@@ -13,18 +13,18 @@
 
 	<!-- Normal probability -->
 	<build id="4" weight="1" items="Godhead + There's Options + The Sad Onion + Strange Attractor" redhearts="1" removed="Mutant Spider" />
-	<build id="5" weight="1" items="Soy Milk + There's Options + Judas' Shadow + Proptosis + Magic Mushroom + Death's Touch + Cricket's Body + Rubber Cement + The Wafer" redhearts="1" removed="Libra + Guppy's Head + Guppy's Paw + Guppy's Collar + Guppy's Hairball" />
+	<build id="5" weight="1" items="Soy Milk + There's Options + Proptosis + Magic Mushroom + Death's Touch + Cricket's Body + Rubber Cement" redhearts="1" removed="Libra + Guppy's Head + Guppy's Paw + Guppy's Collar + Guppy's Hairball" />
 	<build id="6" weight="1" items="Guppy's Tail + Guppy's Collar + Guppy's Hairball + Little Steven" redhearts="1" removed="Brimstone + Monstro's Lung + Polyphemus + Cricket's Body + Hive Mind" />
 	<build id="7" weight="1" items="Brimstone + Steven + The Pact + Wooden Spoon" redhearts="2" removed="Tammy's Head + Sacred Heart + Polyphemus + The Inner Eye + Mutant Spider + Guppy's Head + Guppy's Paw + Guppy's Collar + Guppy's Hairball" />
-	<build id="8" weight="1" items="Brimstone + The Ludovico Technique" redhearts="1" removed="Tammy's Head" />
+	<build id="8" weight="1" items="Brimstone + The Ludovico Technique + Dead Onion" redhearts="1" removed="Tammy's Head" />
 	<build id="9" weight="1" items="20/20 + There's Options + A Lump of Coal + Guillotine + The Pact + PHD" redhearts="2" removed="" />
 	<build id="10" weight="1" items="20/20 + Rubber Cement + Cricket's Body" redhearts="1" soulhearts="1" removed="" />
 	<build id="11" weight="1" items="Proptosis + There's Options + The Pact + The Halo + Starter Deck" redhearts="2" removed="" />
 	<build id="12" weight="1" items="Tech.5 + There's Options + Steven + The Halo + Starter Deck" redhearts="2" removed="" />
 	<build id="13" weight="1" items="Tech.5 + Technology + Technology 2 + Godhead + There's Options + Steven" redhearts="1" removed="" />
-	<build id="14" weight="1" items="Tech.5 + Eve's Mascara + Infestation 2 + Rotten Baby + Capricorn" redhearts="1" removed="Hive Mind" />
+	<build id="14" weight="1" items="Tech.5 + Eve's Mascara + Infestation 2 + Rotten Baby + Capricorn" redhearts="1" removed="Hive Mind + Guppy's Head + Guppy's Paw + Guppy's Collar + Guppy's Hairball" />
 	<build id="15" weight="1" items="Lil' Brimstone + Little Chubby + BFFS! + There's Options + Aries" redhearts="1" removed="" />
-	<build id="16" weight="1" items="Lil' Brimstone + Scapular + The Negative + There's Options" redhearts="1" soulhearts="1" removed="" />
+	<build id="16" weight="1" items="Lil' Brimstone + Scapular + The Negative + There's Options + The Wafer" redhearts="1" soulhearts="1" removed="" />
 	<build id="17" weight="1" items="Sacred Heart + 120 + There's Options" redhearts="2" removed="Brimstone" />
 	<build id="18" weight="1" items="Magic Mushroom + Steven + Dead Onion + Screw + Sissy Longlegs" redhearts="1" removed="" />
 	<build id="19" weight="1" items="Cricket's Head + Steven + Dead Onion + Screw + Lucky Foot" redhearts="1" removed="" />
@@ -38,6 +38,6 @@
 	<build id="27" weight="1" items="Judas' Shadow + Guillotine + There's Options + Growth Hormones + Cupid's Arrow" redhearts="1" removed="" />
 	<build id="28" weight="1" items="Bloody Lust + Goat Head + Squeezy + The Parasite + Anti-Gravity + Juicy Sack + Steven" redhearts="12" heartcontainers="12" removed="" />
 	<build id="29" weight="1" items="Hive Mind + Infestation 2 + The Mulligan + Rotten Baby + Juicy Sack + There's Options" redhearts="1" removed="Guppy's Head + Guppy's Paw + Guppy's Collar + Guppy's Hairball" />
-	<build id="30" weight="1" items="Dr. Fetus + Bob's Curse + Mr. Mega + There's Options + Aries + Cube of Meat + Transcendence" redhearts="2" soulhearts="1" removed="" />
+	<build id="30" weight="1" items="Dr. Fetus + Bob's Curse + Mr. Mega + There's Options + Aries + Cube of Meat + Transcendence" redhearts="2" soulhearts="1" removed="BFF!" />
 	<build id="31" weight="1" items="Chocolate Milk + There's Options + Growth Hormones + The Pact + Cupid's Arrow" trinket="Curved Horn" redhearts="1" removed="Monstro's Lung" />
 </builds>
