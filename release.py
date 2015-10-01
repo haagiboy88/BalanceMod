@@ -6,7 +6,7 @@
 # Imports
 import os, sys, shutil, py2exe, subprocess
 from distutils.core import setup
-from BalanceMod import *
+import BalanceMod
 
 # Configuration
 version = str(BalanceMod.version)
