@@ -1,0 +1,30 @@
+<!--
+	Notes:
+	- Build IDs are arbitrary but are currently used to label them in practice mode.
+	- Odd Mushroom (thin) = 120
+	- Odd Mushroom (thick) = 121
+-->
+
+<builds>
+	<!-- Normal probability -->
+	<build id="1" weight="1" items="Mom's Knife" redhearts="2" soulhearts="1" removed="" />
+	<build id="2" weight="1" items="Epic Fetus" redhearts="2" soulhearts="1" removed="" />
+	<build id="3" weight="1" items="Ipecac" redhearts="2" soulhearts="1" removed="" />
+	<build id="4" weight="1" items="Tech.x" redhearts="2" soulhearts="1" removed="" />	
+	<build id="5" weight="1" items="Sacrificial Dagger" redhearts="2" soulhearts="1" removed="" />	
+	<build id="6" weight="1" items="Dead Eye" redhearts="2" soulhearts="1" removed="" />	
+	<build id="7" weight="1" items="20/20" redhearts="2" soulhearts="1" removed="" />
+	<build id="8" weight="1" items="Proptosis" redhearts="2" soulhearts="1" removed="" />
+	<build id="9" weight="1" items="Tech.5" redhearts="2" soulhearts="1" removed="" />
+	<build id="10" weight="1" items="Lil' Brimstone" redhearts="2" soulhearts="1" removed="" />
+	<build id="11" weight="1" items="Magic Mushroom" redhearts="2" soulhearts="1" removed="" />
+	<build id="12" weight="1" items="Cricket's Head" redhearts="2" soulhearts="1" removed=""/>
+	<build id="13" weight="1" items="Monstro's Lung" redhearts="2" soulhearts="1" removed="" />
+	<build id="14" weight="1" items="Cricket's Body" redhearts="2" soulhearts="1" removed="" />
+	<build id="15" weight="1" items="Death's Touch" redhearts="2" soulhearts="1" removed="" />
+	<build id="16" weight="1" items="Mutant Spider" redhearts="2" soulhearts="1" removed="" />
+	<build id="17" weight="1" items="Polyphemus" redhearts="2" soulhearts="1" removed="" />
+	<build id="18" weight="1" items="Judas' Shadow" redhearts="2" soulhearts="1" removed="" />
+	<build id="19" weight="1" items="Dr. Fetus" redhearts="2" soulhearts="1" removed="" />
+	<build id="20" weight="1" items="Chocolate Milk" redhearts="2" soulhearts="1" removed="" />
+</builds>
