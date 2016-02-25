@@ -7,7 +7,7 @@ I have absolutely no idea how to enforce this, but maybe it is possible to use s
 
 Otherwise the itempools, rooms etc etc are the same as the ones in Zamiels Jud6's mod (v1.18 at this moment)
 
-Rules: 
+# Rules: 
 
 Reseting is not allowed
 If you die, .forfeit
