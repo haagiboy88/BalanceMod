@@ -10,7 +10,9 @@ Otherwise the itempools, rooms etc etc are the same as the ones in Zamiels Jud6'
 # Rules: 
 
 Reseting is not allowed
+
 If you die, .forfeit
+
 If all racers die, .rematch
 
 Rules are up for discussion to improve them!
